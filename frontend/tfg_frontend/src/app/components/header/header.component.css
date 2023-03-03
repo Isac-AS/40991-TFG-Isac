@@ -1,0 +1,111 @@
+nav {
+    width: 100%;
+    font-size: large;
+    font-weight: bolder;
+    background-color: #191919;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  hr {
+    background-color: #c2640a;
+    height: 0.3em;
+    border: none;
+  }
+  
+  #adminNav {
+    padding: 1em 0;
+  }
+  
+  #adminNav h1 {
+    color: #FFFFFF;
+    margin-left: 1em;
+  }
+  
+  #adminNav #adminActionsContainer {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 50%;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 0 5%;
+  }
+  
+  #logo {
+    height: 125px;
+    margin-left: 5%;
+  }
+  
+  #buttonsContainer {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 50%;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 0 5%;
+  }
+  
+  #listButton {
+    display: none;
+  }
+  
+  button:hover{
+    cursor:pointer;
+  }
+  
+  @media (min-width: 768px) and (max-width: 1200px) {
+    .loggedInButtons {
+      display: none;
+    }
+  
+    #buttonsContainer {
+      width: 60%;
+    }
+  
+    #adminNav #adminActionsContainer {
+      width: 90%;
+    }
+  }
+  
+  
+  @media (max-width: 768px) {
+  
+    button {
+      display: none;
+    }
+  
+    #cartButton {
+      display: flex;
+    }
+  
+    #cartButton u {
+      display: none;
+    }
+  
+    #listButton {
+      display: flex;
+    }
+  
+    nav {
+      justify-content: space-evenly;
+    }
+  
+    #buttonsContainer {
+      margin: 0;
+      width: auto;
+    }
+  
+    #logo {
+      height: 100px;
+      margin: 0;
+    }
+  
+    #adminNav {
+      display: none;
+    }
+  
+  }
+  
+  
