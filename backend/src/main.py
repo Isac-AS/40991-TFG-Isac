@@ -1,5 +1,6 @@
 # coding=utf-8
 
+from flask_cors import CORS
 from flask import Flask, jsonify, request
 
 from .entities.entity import Session, engine, Base
@@ -7,6 +8,7 @@ from .entities.user_entity import UserEntity, UserSchema
 
 # create flask application
 app = Flask(__name__)
+CORS(app)
 
 # generate database schema
 print("\nCreación del esquema:\n")
@@ -21,8 +23,6 @@ def get_users():
     # transforming into JSON
     schema = UserSchema(many=True)
     users = schema.dump(user_objects)
-
-    print(users)
 
     session.close()
     return jsonify(users)
@@ -39,6 +39,6 @@ def add_user():
     session.commit()
 
     # return created user
-    new_user = UserSchema().dump(user).data
+    new_user = UserSchema().dump(user)
     session.close()
     return jsonify(new_user), 201
