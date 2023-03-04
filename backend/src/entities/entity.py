@@ -2,14 +2,13 @@
 
 from datetime import datetime
 from sqlalchemy import create_engine, Column, String, Integer, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-db_url = 'localhost:3306'
-db_name = 'mysqldb-1'
-db_user = 'root'
+db_url = 'tfg-db:5432'
+db_name = 'tfg-db'
+db_user = 'postgres'
 db_password = 'pass'
-engine = create_engine(f'mysql+pymysql://{db_user}:{db_password}@{db_url}/{db_name}')
+engine = create_engine(f'postgresql://{db_user}:{db_password}@{db_url}/{db_name}', echo=True)
 Session = sessionmaker(bind=engine)
 
 Base = declarative_base()

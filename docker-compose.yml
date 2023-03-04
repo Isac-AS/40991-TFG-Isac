@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+ web_sever:
+  image: isacas/tfg-webserver
+  ports:
+    - 8000:5000
+  container_name: tfg-webserver
+  environment:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: pass
+    POSTGRES_DB: tfg-db
+
+ postgres_db:
+  image: postgres
+  ports:
+    - 5432:5432
+  container_name: tfg-db
+  environment:
+   POSTGRES_DB: tfg-db
+   POSTGRES_PASSWORD: pass
