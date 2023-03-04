@@ -1,0 +1,18 @@
+header {
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+}
+.spacer {
+  flex: 1 1 auto;
+}
+
+#header-title {
+  font-size: 1.8em;
+  font-weight: bolder;
+}
+
+#header-button-container a {
+  margin: 0.5em;
+  font-weight: bolder;
+  font-size: 1em;
+}

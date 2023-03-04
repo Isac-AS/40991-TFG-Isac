@@ -1,0 +1,6 @@
+#footer-content {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    font-size: 1.5em;
+}
