@@ -31,7 +31,8 @@ def get_users():
 def add_user():
     # mount user objectç
     posted_user = UserSchema(only=('mail', 'role','password','username')).load(request.get_json())
-    user = UserEntity(**posted_user.data, created_by="HTTP post request")
+    print(posted_user)
+    user = UserEntity(**posted_user, created_by="HTTP post request")
 
     #persist the user
     session = Session()

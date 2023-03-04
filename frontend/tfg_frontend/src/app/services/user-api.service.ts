@@ -16,4 +16,8 @@ export class UserApiService {
                 return throwError(() => new Error(error.message))
             }))
     }
+
+    addUser(user: User): Observable<any> {
+        return this.http.post(`${API_URL}/users`, user);
+    }
 }

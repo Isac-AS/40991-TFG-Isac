@@ -1,10 +1,33 @@
-<h1> Sistema de gestión de registros en audio de consultas médicas procesados con técnicas de inteligencia artificial</h1>
+<h1> Sistema de gestión de registros en audio de consultas médicas procesados con técnicas de inteligencia artificial
+</h1>
 <h2>Usuarios</h2>
 <ul>
   <li *ngFor="let user of userList">
     {{user.mail}}
   </li>
 </ul>
-<button (click)="saveEntry()">
-  Prueba agregación fila BBDD
-</button>
+<div id="formContainer">
+  <form [formGroup]="addUserForm" (ngSubmit)="addUser()">
+    <ul>
+      <li>
+        <label for="email"> Correo eléctronico </label>
+        <input type="text" class="form-control" placeholder="Correo Electrónico" formControlName="email">
+      </li>
+      <li>
+        <label for="username"> Nombre de Usuario </label>
+        <input type="text" class="form-control" placeholder="Nombre de usuario" formControlName="username">
+      </li>
+      <li>
+        <label for="password"> Contraseña </label>
+        <input type="password" class="form-control" placeholder="Contraseña" formControlName="password">
+      </li>
+      <li>
+        <label for="role"> Rol </label>
+        <input type="text" class="form-control" placeholder="Rol" formControlName="role">
+      </li>
+      <li>
+        <button type="submit">Agregar usuario</button>
+      </li>
+    </ul>
+  </form>
+</div>

@@ -1,10 +1,11 @@
+// Basic imports
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-//Component imports
+// Component imports
 import { AppComponent } from './app.component';
 // Pages
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -26,6 +27,8 @@ import { UserApiService } from './services/user-api.service';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     UserApiService,
