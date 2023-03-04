@@ -1,33 +1,44 @@
 # coding=utf-8
 
-from entities.entity import Session, engine, Base
-from entities.user_entity import UserEntity
+from flask import Flask, jsonify, request
+
+from .entities.entity import Session, engine, Base
+from .entities.user_entity import UserEntity, UserSchema
+
+# create flask application
+app = Flask(__name__)
 
 # generate database schema
 print("\nCreación del esquema:\n")
 Base.metadata.create_all(engine)
 
-# start session
-print("\nCreación de la sesión:")
-session = Session()
-print(f"Session:\n{session}\n")
+@app.route("/users")
+def get_users():
+    #fetching users from the database
+    session = Session()
+    user_objects = session.query(UserEntity).all()
 
-# check for existing data
-print("\n\nProceeding to query:\n")
-users = session.query(UserEntity).all()
+    # transforming into JSON
+    schema = UserSchema(many=True)
+    users = schema.dump(user_objects)
 
-if len(users) == 0:
-    # create and persist mock exam
-    python_user = UserEntity(mail="fulanito@gmail.com", created_by="script", password="prueba", role="none", username="pepe")
-    print(f"Session:\n{session}\n\n")
-    session.add(python_user)
-    session.commit()
+    print(users)
+
     session.close()
+    return jsonify(users)
 
-    # reload users
-    users = session.query(UserEntity).all()
+@app.route("/users", methods = ['POST'])
+def add_user():
+    # mount user objectç
+    posted_user = UserSchema(only=('mail', 'role','password','username')).load(request.get_json())
+    user = UserEntity(**posted_user.data, created_by="HTTP post request")
 
-# show existing users
-print('### Users:')
-for user in users:
-    print(f'({user.id}):\nMail: {user.mail}\nUsername: {user.username}\nPassword: {user.password}\nRole: {user.role}\nCreated by: {user.last_updated_by}\n')
+    #persist the user
+    session = Session()
+    session.add(user)
+    session.commit()
+
+    # return created user
+    new_user = UserSchema().dump(user).data
+    session.close()
+    return jsonify(new_user), 201
