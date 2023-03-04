@@ -1,4 +1,10 @@
 <h1> Sistema de gestión de registros en audio de consultas médicas procesados con técnicas de inteligencia artificial</h1>
+<h2>Usuarios</h2>
+<ul>
+  <li *ngFor="let user of userList">
+    {{user.mail}}
+  </li>
+</ul>
 <button (click)="saveEntry()">
   Prueba agregación fila BBDD
 </button>

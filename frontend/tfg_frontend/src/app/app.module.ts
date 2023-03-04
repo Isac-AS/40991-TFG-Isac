@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -10,6 +11,8 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 // Components
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+// Services
+import { UserApiService } from './services/user-api.service';
 
 
 @NgModule({
@@ -21,9 +24,12 @@ import { FooterComponent } from './components/footer/footer.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    UserApiService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
