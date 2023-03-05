@@ -7,22 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Angular material
+import { CustomMaterialModule } from './material.module';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatTreeModule } from '@angular/material/tree';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatGridListModule} from '@angular/material/grid-list'; 
-import { MatPaginatorModule} from '@angular/material/paginator';
-import { MatTableModule} from '@angular/material/table';
 
 // Pages
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -58,21 +44,7 @@ import { UserApiService } from './services/user-api.service';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MatTreeModule,
-    DragDropModule,
-    MatInputModule,
-    MatSelectModule,
-    MatRadioModule,
-    MatCardModule,
-    MatGridListModule,
-    MatNativeDateModule,
-    MatPaginatorModule,
-    MatTableModule
+    CustomMaterialModule
   ],
   providers: [
     UserApiService,

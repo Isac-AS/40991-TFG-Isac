@@ -12,11 +12,18 @@ import { GlobalService } from 'src/app/services/global.service';
   templateUrl: './user-management-page.component.html',
   styleUrls: ['./user-management-page.component.scss']
 })
-export class UserManagementPageComponent implements AfterViewInit {
+export class UserManagementPageComponent {
 
   userList: User[] = [];
-  displayedColumns: string[] = ['id', 'name', 'mail', 'role'];
+  displayedColumns: string[] = ['selected', 'id', 'name', 'mail', 'role'];
   dataSource: MatTableDataSource<User>;
+
+  selectedUser: User = {
+    username: 'No hay ningún usuario seleccionado',
+    mail: '',
+    password: '',
+    role: ''
+  };
 
   resultsLength = 0;
   isLoadingResults = true;
@@ -36,18 +43,12 @@ export class UserManagementPageComponent implements AfterViewInit {
     this.userApi.getUsers().subscribe({
       next: (users) => {
         this.userList = users;
-        console.log(this.userList);
         this.dataSource = new MatTableDataSource(this.userList);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       }
     })
     
-  }
-
-  ngOnInit() {}
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
