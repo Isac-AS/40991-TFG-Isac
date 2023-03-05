@@ -3,6 +3,7 @@ import { User } from 'src/app/models/user.model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UserApiService } from 'src/app/services/user-api.service';
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-home-page',
@@ -14,10 +15,10 @@ export class HomePageComponent implements OnInit {
   userList: User[] = [];
 
   addUserForm = this.fb.group({
-    email : ['', [Validators.required, Validators.email]],
-    username : [ '', [Validators.required, Validators.minLength(6)]],
-    password : [ '', [Validators.required, Validators.minLength(6)]],
-    role : ['', [Validators.required]]
+    email: ['', [Validators.required, Validators.email]],
+    username: ['', [Validators.required, Validators.minLength(6)]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    role: ['', [Validators.required]]
   })
 
   userData: User = {
@@ -31,7 +32,12 @@ export class HomePageComponent implements OnInit {
     private router: Router,
     private userApi: UserApiService,
     private fb: FormBuilder,
-  ) { }
+    public globalService: GlobalService,
+  ) {
+    this.globalService.pageName.next({
+      currentPageName: 'Página principal'
+    })
+  }
 
   ngOnInit() {
     this.userApi.getUsers().subscribe(

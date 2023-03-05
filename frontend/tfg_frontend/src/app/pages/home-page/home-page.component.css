@@ -1,0 +1,53 @@
+#welcome-section {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+    margin: 5em;
+    gap: 3em;
+    padding: 3em;
+}
+
+#welcome-section h1 {
+    font-size: 4em;
+    font-weight: 800;
+}
+
+#welcome-section h2 {
+    font-size: 1.5em;
+    font-weight: 200;
+}
+
+#welcome-section a {
+    font-size: 1.2em;
+    font-weight: 100;
+}
+
+#card-wrapper {
+    margin: 1em;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+}
+
+mat-card {
+    margin: 2em;
+}
+
+mat-card-actions {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}

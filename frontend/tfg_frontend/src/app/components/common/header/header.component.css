@@ -1,9 +1,7 @@
-header {
-  border-bottom-width: 2px;
-  border-bottom-style: solid;
-}
-.spacer {
-  flex: 1 1 auto;
+#header-toolbar {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
 }
 
 #header-title {

@@ -19,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import {MatGridListModule} from '@angular/material/grid-list'; 
 
 // Pages
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -65,7 +66,8 @@ import { UserApiService } from './services/user-api.service';
     MatInputModule,
     MatSelectModule,
     MatRadioModule,
-    MatCardModule
+    MatCardModule,
+    MatGridListModule
   ],
   providers: [
     UserApiService,

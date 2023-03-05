@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { GlobalService } from './services/global.service';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,7 @@ import { map, shareReplay } from 'rxjs/operators';
 })
 export class AppComponent {
   title = 'TFG_frontend';
+  currentPageName = '';
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -17,5 +19,14 @@ export class AppComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public globalService: GlobalService
+  ) {
+    this.globalService.pageName.subscribe({
+      next: newValue => {
+        this.currentPageName = newValue.currentPageName;
+      }
+    })
+  }
 }

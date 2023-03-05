@@ -1,33 +1,86 @@
-<h1> Sistema de gestión de registros en audio de consultas médicas procesados con técnicas de inteligencia artificial
-</h1>
-<h2>Usuarios</h2>
-<ul>
-  <li *ngFor="let user of userList">
-    {{user.mail}}
-  </li>
-</ul>
-<div id="formContainer">
-  <form [formGroup]="addUserForm" (ngSubmit)="addUser()">
-    <ul>
-      <li>
-        <label for="email"> Correo eléctronico </label>
-        <input type="text" class="form-control" placeholder="Correo Electrónico" formControlName="email">
-      </li>
-      <li>
-        <label for="username"> Nombre de Usuario </label>
-        <input type="text" class="form-control" placeholder="Nombre de usuario" formControlName="username">
-      </li>
-      <li>
-        <label for="password"> Contraseña </label>
-        <input type="password" class="form-control" placeholder="Contraseña" formControlName="password">
-      </li>
-      <li>
-        <label for="role"> Rol </label>
-        <input type="text" class="form-control" placeholder="Rol" formControlName="role">
-      </li>
-      <li>
-        <button type="submit">Agregar usuario</button>
-      </li>
-    </ul>
-  </form>
+<mat-card id="welcome-section" color="primary">
+  <h1>Audio diagnóstico</h1>
+  <h2>Sistema de gestión de registros en audio de consultas médicas procesados con técnicas de inteligencia artificial
+  </h2>
+  <a mat-raised-button>
+    Comenzar
+  </a>
+</mat-card>
+
+<div class="card-wrapper">
+  <div class="row">
+    <div class="column">
+      <mat-card>
+        <mat-card-header>
+          <h1>Realiza un grabación</h1>
+        </mat-card-header>
+        <mat-card-content>
+          <h3>Graba en audio el resultado de una consulta</h3>
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-raised-button color="primary">
+            <span>Realizar grabación</span>
+            <mat-icon>mic</mat-icon>
+          </a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <div class="column">
+      <mat-card>
+        <mat-card-header>
+          <h1>Selecciona un pipeline</h1>
+        </mat-card-header>
+        <mat-card-content>
+          <h3>Selecciona el cauce de etapas que procesarán el audio grabado</h3>
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-raised-button color="primary">
+            <span>Selecciona un cauce con el que procesar tu grabación</span>
+            <mat-icon>mic</mat-icon>
+            <mat-icon>arrow_right_alt</mat-icon>
+            <mat-icon>settings</mat-icon>
+            <mat-icon>arrow_right_alt</mat-icon>
+            <mat-icon>settings</mat-icon>
+            <mat-icon>arrow_right_alt</mat-icon>
+            <mat-icon>star</mat-icon>
+          </a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column">
+      <mat-card>
+        <mat-card-header>
+          <h1>Observa los registros</h1>
+        </mat-card-header>
+        <mat-card-content>
+          <h3>Observa la lista de registros y también un registro específico en detalle</h3>
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-raised-button color="primary">
+            <span>Observar registros</span>
+            <mat-icon>visibility</mat-icon>
+          </a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div class="column">
+      <mat-card>
+        <mat-card-header>
+          <h1>Corrige un registro</h1>
+        </mat-card-header>
+        <mat-card-content>
+          <h3>Modifica el contenido de un registro</h3>
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-raised-button color="primary">
+            <span>Modificar registros</span>
+            <mat-icon>edit</mat-icon>
+          </a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
 </div>
