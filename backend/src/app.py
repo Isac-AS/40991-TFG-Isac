@@ -29,7 +29,7 @@ def get_users():
 
 @app.route("/users", methods = ['POST'])
 def add_user():
-    # mount user objectç
+    # mount user object
     posted_user = UserSchema(only=('mail', 'role','password','username')).load(request.get_json())
     print(posted_user)
     user = UserEntity(**posted_user, created_by="HTTP post request")

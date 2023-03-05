@@ -1,4 +1,69 @@
-<p>
-  register-page works!
-</p>
-<app-register-form></app-register-form>
+<mat-card id="register-banner" color="primary" [class.mat-elevation-z8]="true">
+  <mat-card-header>
+    <mat-card-title>
+      Registro
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    Es necesario registrarse para poder agregar grabaciones y tener acceso a otras funcionalidades
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-raised-button color="accent" routerLink="/login">
+      <span>¿Ya estás registrado? Inicia sesión</span>
+      <mat-icon>login</mat-icon>
+    </a>
+  </mat-card-actions>
+</mat-card>
+
+<form [formGroup]="userForm" (ngSubmit)="register()">
+  <mat-card class="user-form-card">
+    <mat-card-header>
+      <mat-card-title>
+        Información de usuario
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="user-form-content">
+      <!-- username -->
+      <mat-form-field>
+        <input matInput placeholder="Nombre de usuario" formControlName="username">
+        <mat-error *ngIf="userForm.controls['username'].hasError('required')">
+          El nombre de usuario es <strong>obligatorio</strong>
+        </mat-error>
+      </mat-form-field>
+      <!-- email -->
+      <mat-form-field>
+        <input matInput placeholder="Correo electrónico" formControlName="email">
+        <mat-error *ngIf="userForm.controls['email'].hasError('required')">
+          El correo electrónico es <strong>obligatorio</strong>
+        </mat-error>
+        <mat-error *ngIf="userForm.controls['email'].hasError('email')">
+          Introduzca un correo electrónico correcto
+        </mat-error>
+      </mat-form-field>
+      <!-- role -->
+      <mat-form-field>
+        <mat-select placeholder="Perfil" formControlName="role">
+          <mat-option *ngFor="let role of possibleRoles" [value]="role.databaseName">
+            {{ role.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="userForm.controls['role'].hasError('required')">
+          El perfil es <strong>obligatorio</strong>
+        </mat-error>
+      </mat-form-field>
+      <!-- password -->
+      <mat-form-field>
+        <input matInput type="password" placeholder="Contraseña" formControlName="password">
+        <mat-error *ngIf="userForm.controls['password'].hasError('required')">
+          La contraseña es <strong>obligatoria</strong>
+        </mat-error>
+        <mat-error *ngIf="userForm.controls['password'].hasError('minlength')">
+          La contraseña debe tener más de 6 caracteres
+        </mat-error>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions id="submit-card-actions">
+      <button mat-raised-button color="accent" type="submit" [disabled]="!userForm.valid">Registrarse</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

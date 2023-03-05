@@ -19,19 +19,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import {MatGridListModule} from '@angular/material/grid-list'; 
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatGridListModule} from '@angular/material/grid-list'; 
+import { MatPaginatorModule} from '@angular/material/paginator';
+import { MatTableModule} from '@angular/material/table';
 
 // Pages
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
+import { UserManagementPageComponent } from './pages/user-management-page/user-management-page.component';
 
 // Components
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/common/header/header.component';
 import { FooterComponent } from './components/common/footer/footer.component';
-import { LoginFormComponent } from './components/auth/login-form/login-form.component';
-import { RegisterFormComponent } from './components/auth/register-form/register-form.component';
 
 // Services
 import { UserApiService } from './services/user-api.service';
@@ -43,10 +45,10 @@ import { UserApiService } from './services/user-api.service';
     HomePageComponent,
     HeaderComponent,
     FooterComponent,
+
     LoginPageComponent,
     RegisterPageComponent,
-    RegisterFormComponent,
-    LoginFormComponent,
+    UserManagementPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,7 +69,10 @@ import { UserApiService } from './services/user-api.service';
     MatSelectModule,
     MatRadioModule,
     MatCardModule,
-    MatGridListModule
+    MatGridListModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatTableModule
   ],
   providers: [
     UserApiService,
