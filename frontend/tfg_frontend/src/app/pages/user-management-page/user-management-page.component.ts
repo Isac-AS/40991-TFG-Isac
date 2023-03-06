@@ -44,15 +44,7 @@ export class UserManagementPageComponent {
       currentPageName: 'Gestión de usuarios'
     })
     this.dataSource = new MatTableDataSource(this.userList);
-    this.userApi.getUsers().subscribe({
-      next: (users) => {
-        this.userList = users;
-        this.dataSource = new MatTableDataSource(this.userList);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      }
-    })
-    
+    this.fetchUsers();
   }
 
   applyFilter(event: Event) {
@@ -62,5 +54,16 @@ export class UserManagementPageComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  fetchUsers() {
+    this.userApi.getUsers().subscribe({
+      next: (users) => {
+        this.userList = users;
+        this.dataSource = new MatTableDataSource(this.userList);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }
+    })
   }
 }

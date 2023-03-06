@@ -45,4 +45,14 @@
         <button mat-raised-button color="accent" type="submit" [disabled]="!userForm.valid">Iniciar sesión</button>
       </mat-card-actions>
     </mat-card>
+    <mat-card class="error-form-card" *ngIf="invalidAnswerFromBackend">
+      <mat-card-header>
+        <mat-card-title>
+          Se han encontado los siguientes errores:
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        1 - Correo o contraseña erróneos
+      </mat-card-content>
+    </mat-card>
   </form>

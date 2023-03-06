@@ -12,6 +12,7 @@ import { GlobalService } from './services/global.service';
 export class AppComponent {
   title = 'TFG_frontend';
   currentPageName = '';
+  currentLoggedUserRole = '0';
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -26,6 +27,12 @@ export class AppComponent {
     this.globalService.pageName.subscribe({
       next: newValue => {
         this.currentPageName = newValue.currentPageName;
+      }
+    })
+
+    this.globalService.loggedInfo.subscribe({
+      next: newValue => {
+        this.currentLoggedUserRole = newValue.role;
       }
     })
   }

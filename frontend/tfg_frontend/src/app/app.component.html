@@ -9,7 +9,7 @@
                 <span id="home-page-list-item">Página principal</span>
             </mat-list-item>
             <!--Registros-->
-            <mat-expansion-panel [class.mat-elevation-z0]="true">
+            <mat-expansion-panel [class.mat-elevation-z0]="true" *ngIf="currentLoggedUserRole >= '1'">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Registros médicos
@@ -21,7 +21,7 @@
                 </mat-nav-list>
             </mat-expansion-panel>
             <!--Desarrollo-->
-            <mat-expansion-panel [class.mat-elevation-z0]="true">
+            <mat-expansion-panel [class.mat-elevation-z0]="true" *ngIf="currentLoggedUserRole >= '2'">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Estrategias
@@ -35,7 +35,7 @@
                 </mat-nav-list>
             </mat-expansion-panel>
             <!--Usuarios-->
-            <mat-expansion-panel [class.mat-elevation-z0]="true">
+            <mat-expansion-panel [class.mat-elevation-z0]="true" *ngIf="currentLoggedUserRole >= '3'">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         Usuarios

@@ -10,7 +10,7 @@ import * as shajs from 'sha.js';
 export class UserApiService {
     constructor(private http: HttpClient) {}
 
-    // GET list of public
+    // GET list of users
     getUsers(): Observable<User[]> {
         return this.http.get<User[]>(`${API_URL}/users`).pipe(
             catchError(error => {
@@ -18,6 +18,12 @@ export class UserApiService {
             }))
     }
 
+    // POST to get answer on whether the password is correct
+    verifyPassword(mail: string, password: string): Observable<any>{
+        return this.http.post<string>(`${API_URL}/users/login`, {'mail': mail, 'password': password})
+    }
+
+    // POST action
     addUser(user: User): Observable<any> {
         return this.http.post(`${API_URL}/users`, user);
     }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { GlobalService } from 'src/app/services/global.service';
 
 
 @Component({
@@ -10,13 +11,27 @@ import { map, shareReplay } from 'rxjs/operators';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+  loggedInCondition = false;
+  currentUserName = '';
   
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+  constructor(
+    public globalService: GlobalService
+    ) {
+    
+    this.globalService.loggedInfo.subscribe({
+      next: newValue => {
+        this.loggedInCondition = newValue.isLoggedIn;
+        this.currentUserName = newValue.username;
+      }
+    })
+  }
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  logOut() {
+    this.globalService.loggedInfo.next({
+      isLoggedIn: false,
+      username: '',
+      role: '0'
+    })
+  }
 
 }

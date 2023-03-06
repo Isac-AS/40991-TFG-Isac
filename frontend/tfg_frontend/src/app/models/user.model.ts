@@ -1,10 +1,13 @@
-export interface User {
-    mail: string,
-    username: string,
-    password: string,
-    role: string,
-    id: number,
-    updated_at: string,
-    created_at: string,
-    last_updated_by: string,
+export class User {
+    constructor(
+        public mail: string,
+        public username: string,
+        public password: string,
+        public role: string,
+        public id?: number,
+        public updated_at?: string,
+        public created_at?: string,
+        public last_updated_by?: string,
+    ) {
+    }
 }

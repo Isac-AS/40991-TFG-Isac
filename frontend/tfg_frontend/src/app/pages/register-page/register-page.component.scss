@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 #register-banner {
     justify-self: center;
     display: flex;
@@ -31,4 +33,10 @@ mat-form-field {
     display: flex;
     flex-flow: row;
     justify-content: center;
+}
+
+.error-form-card {
+    margin: 3em 25% 2em 25%;
+    padding-bottom: 1em;
+    background-color: rgba(239, 113, 113, 0.525);
 }
