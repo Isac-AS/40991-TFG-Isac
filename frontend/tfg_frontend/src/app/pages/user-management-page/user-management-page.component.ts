@@ -19,10 +19,14 @@ export class UserManagementPageComponent {
   dataSource: MatTableDataSource<User>;
 
   selectedUser: User = {
-    username: 'No hay ningún usuario seleccionado',
     mail: '',
+    username: 'Ninguno',
     password: '',
-    role: ''
+    role: '',
+    id: -1,
+    updated_at: '',
+    created_at: '',
+    last_updated_by: '',
   };
 
   resultsLength = 0;

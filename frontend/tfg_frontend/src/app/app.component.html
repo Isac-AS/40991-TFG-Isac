@@ -5,11 +5,60 @@
         [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
         <mat-toolbar>Menu</mat-toolbar>
         <mat-nav-list>
-            <a mat-list-item routerLink="/">Página principal</a>
-            <a mat-list-item routerLink="/">Registros</a>
-            <a mat-list-item routerLink="/">Estrategias</a>
-            <a mat-list-item routerLink="/">Documentación</a>
-            <a mat-list-item routerLink="/user_management">Usuarios</a>
+            <mat-list-item routerLink="/">
+                <span id="home-page-list-item">Página principal</span>
+            </mat-list-item>
+            <!--Registros-->
+            <mat-expansion-panel [class.mat-elevation-z0]="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Registros médicos
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-nav-list>
+                    <a mat-list-item routerLink="/">Nuevo Registro</a>
+                    <a mat-list-item routerLink="/">Ver Registros</a>
+                </mat-nav-list>
+            </mat-expansion-panel>
+            <!--Desarrollo-->
+            <mat-expansion-panel [class.mat-elevation-z0]="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Estrategias
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-nav-list>
+                    <a mat-list-item routerLink="/">Nuevo pipeline</a>
+                    <a mat-list-item routerLink="/">Ver Pipelines</a>
+                    <a mat-list-item routerLink="/">Nueva Estrategia</a>
+                    <a mat-list-item routerLink="/">Ver Estrategias</a>
+                </mat-nav-list>
+            </mat-expansion-panel>
+            <!--Usuarios-->
+            <mat-expansion-panel [class.mat-elevation-z0]="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Usuarios
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-nav-list>
+                    <a mat-list-item routerLink="/user_management">Usuarios</a>
+                    <a mat-list-item routerLink="/">Añadir usuario</a>
+                </mat-nav-list>
+            </mat-expansion-panel>
+            <!--Documentación-->
+            <mat-expansion-panel [class.mat-elevation-z0]="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Documentación
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-nav-list>
+                    <a mat-list-item routerLink="/">Guías</a>
+                    <a mat-list-item routerLink="/">Concepto</a>
+                    <a mat-list-item routerLink="/">Código</a>
+                </mat-nav-list>
+            </mat-expansion-panel>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
