@@ -15,7 +15,7 @@ import { GlobalService } from 'src/app/services/global.service';
 export class UserManagementPageComponent {
 
   userList: User[] = [];
-  displayedColumns: string[] = ['selected', 'id', 'name', 'mail', 'role'];
+  displayedColumns: string[] = ['selected', 'id', 'name', 'email', 'role'];
   dataSource: MatTableDataSource<User>;
 
   selectedUser: User = {
@@ -23,9 +23,11 @@ export class UserManagementPageComponent {
     username: 'Ninguno',
     password: '',
     role: '',
+    is_admin: false,
     id: -1,
     updated_at: '',
     created_at: '',
+    created_by: '',
     last_updated_by: '',
   };
 
@@ -59,6 +61,7 @@ export class UserManagementPageComponent {
   fetchUsers() {
     this.userApi.getUsers().subscribe({
       next: (users) => {
+        console.log(users)
         this.userList = users;
         this.dataSource = new MatTableDataSource(this.userList);
         this.dataSource.paginator = this.paginator;

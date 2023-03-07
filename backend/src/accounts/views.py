@@ -26,13 +26,13 @@ def register():
         )
 
     # Check if mail is in use
-    result = db.session.execute(db.select(User).filter_by(email=user.email)).scalar_one()
+    result = db.session.execute(db.select(User).where(User.email == user.email))
 
     # Debug info
     if debug:
         print(f"Posted user:")
         print(f"Nombre: {request.json.get('username')}")
-        print(f"Correo: {request.json.get('mail')}")
+        print(f"Correo: {request.json.get('email')}")
         print(f"Contraseña: {request.json.get('password')}")
         print(f"Rol: {request.json.get('role')}")
         for user_obj in result.scalars():
@@ -60,3 +60,10 @@ def login():
         login_user(User)
         return jsonify({"login": True})
     return jsonify({"login": False})
+
+@accounts_bp.route("/accounts/get_users", methods=["GET"])
+def get_users():
+    """Function used to fetch all users from the database"""
+    user_objects = User.query.all()
+    dictionaries = [user.as_dict() for user in user_objects]
+    return jsonify(dictionaries)

@@ -12,7 +12,7 @@ export class UserApiService {
 
     // GET list of users
     getUsers(): Observable<User[]> {
-        return this.http.get<User[]>(`${API_URL}/users`).pipe(
+        return this.http.get<User[]>(`${API_URL}/accounts/get_users`).pipe(
             catchError(error => {
                 return throwError(() => new Error(error.message))
             }))

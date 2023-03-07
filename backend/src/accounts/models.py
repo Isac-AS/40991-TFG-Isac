@@ -34,3 +34,17 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return f"User: <Username: {self.username}><Email: {self.email}>"
+    
+    def as_dict(self):
+        return {
+            'email': self.email,
+            'username': self.username,
+            'password': self.password,
+            'role': self.role,
+            'is_admin': self.is_admin,
+            'id': self.id,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'created_by': self.created_by,
+            'last_modified_by': self.last_modified_by,
+        }

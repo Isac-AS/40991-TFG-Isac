@@ -34,6 +34,7 @@ login_manager.login_view = "accounts.login"
 
 @app.route("/api/ping", methods=["GET", "POST"])
 def home():
+    #db.create_all()
     return jsonify({"ping": "pong!"})
 
 
