@@ -27,7 +27,7 @@ export class RegisterPageComponent {
   ]
 
   userData: User = {
-    mail: '',
+    email: '',
     username: '',
     password: '',
     role: '',
@@ -51,10 +51,10 @@ export class RegisterPageComponent {
   register() {
     this.userData.username = this.userForm.value.username!;
     this.userData.password = this.userAPI.hash(this.userForm.value.password!);
-    this.userData.mail = this.userForm.value.email!;
+    this.userData.email = this.userForm.value.email!;
     this.userData.role = this.userForm.value.role!;
     this.userAPI
-      .addUser(this.userData)
+      .register(this.userData)
       .subscribe({
         next: (res) => {
           if (res.result == true) {

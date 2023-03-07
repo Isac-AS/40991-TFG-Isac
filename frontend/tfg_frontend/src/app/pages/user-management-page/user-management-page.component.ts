@@ -19,7 +19,7 @@ export class UserManagementPageComponent {
   dataSource: MatTableDataSource<User>;
 
   selectedUser: User = {
-    mail: '',
+    email: '',
     username: 'Ninguno',
     password: '',
     role: '',

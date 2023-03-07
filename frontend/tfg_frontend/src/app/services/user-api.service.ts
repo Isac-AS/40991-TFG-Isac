@@ -24,8 +24,8 @@ export class UserApiService {
     }
 
     // POST action
-    addUser(user: User): Observable<any> {
-        return this.http.post(`${API_URL}/users`, user);
+    register(user: User): Observable<any> {
+        return this.http.post(`${API_URL}/register`, user);
     }
 
     hash(string: string) {

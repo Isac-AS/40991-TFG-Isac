@@ -35,7 +35,7 @@
             <!-- Email Column -->
             <ng-container matColumnDef="mail">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Correo </th>
-              <td mat-cell *matCellDef="let row"> {{row.mail}} </td>
+              <td mat-cell *matCellDef="let row"> {{row.email}} </td>
             </ng-container>
 
             <!-- Role Column -->
@@ -75,7 +75,7 @@
           </mat-list-item>
           <mat-list-item>
             <span matListItemTitle>Correo electrónico</span>
-            <span matListItemLine>{{selectedUser.mail}}</span>
+            <span matListItemLine>{{selectedUser.email}}</span>
           </mat-list-item>
           <mat-list-item>
             <span matListItemTitle>Rol</span>
