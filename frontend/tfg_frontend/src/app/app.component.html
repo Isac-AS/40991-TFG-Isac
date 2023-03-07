@@ -5,8 +5,11 @@
         [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
         <mat-toolbar>Menu</mat-toolbar>
         <mat-nav-list>
-            <mat-list-item routerLink="/">
+            <mat-list-item routerLink="/home">
                 <span id="home-page-list-item">Página principal</span>
+            </mat-list-item>
+            <mat-list-item routerLink="/testing">
+                <span>Testing</span>
             </mat-list-item>
             <!--Registros-->
             <mat-expansion-panel [class.mat-elevation-z0]="true" *ngIf="currentLoggedUserRole >= '1'">

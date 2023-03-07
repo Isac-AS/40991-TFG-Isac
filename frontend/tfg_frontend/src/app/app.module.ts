@@ -15,6 +15,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { UserManagementPageComponent } from './pages/user-management-page/user-management-page.component';
+import { TestingPageComponent } from './pages/testing-page/testing-page.component';
 
 // Components
 import { AppComponent } from './app.component';
@@ -23,6 +24,7 @@ import { FooterComponent } from './components/common/footer/footer.component';
 
 // Services
 import { UserApiService } from './services/user-api.service';
+import { BackendAPIService } from './services/backend.service';
 
 
 @NgModule({
@@ -35,6 +37,7 @@ import { UserApiService } from './services/user-api.service';
     LoginPageComponent,
     RegisterPageComponent,
     UserManagementPageComponent,
+    TestingPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +51,7 @@ import { UserApiService } from './services/user-api.service';
   ],
   providers: [
     UserApiService,
+    BackendAPIService
   ],
   bootstrap: [AppComponent]
 })
