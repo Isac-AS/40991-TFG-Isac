@@ -1,8 +1,8 @@
 from decouple import config
-from flask import Flask, jsonify, request
-from flask_cors import CORS, cross_origin
+from flask import Flask, jsonify
+from flask_cors import CORS
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager, current_user, login_required, login_user, logout_user
+from flask_login import LoginManager, current_user, login_required, logout_user
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 
@@ -16,11 +16,7 @@ login_manager.init_app(app)
 login_manager.session_protection = "strong"
 
 csrf = CSRFProtect(app)
-cors = CORS(app,
-    resources={r"*": {"origins": "http://localhost:8000"}},
-    expose_headers=["Content-Type", "X-CSRFToken"],
-    supports_credentials=True,
-)
+cors = CORS(app)
 
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
@@ -37,7 +33,6 @@ def load_user(user_id):
 login_manager.login_view = "accounts.login"
 
 @app.route("/api/ping", methods=["GET", "POST"])
-@cross_origin()
 def home():
     return jsonify({"ping": "pong!"})
 
