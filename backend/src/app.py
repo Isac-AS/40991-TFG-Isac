@@ -2,7 +2,7 @@
 import logging
 
 from flask_cors import CORS
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session
 from sqlalchemy import select
 from flask_login import LoginManager
 
@@ -13,6 +13,7 @@ from .entities.user_entity import UserEntity, UserSchema
 app = Flask(__name__)
 CORS(app)
 
+app.secret_key = b'093a9c0bc5dc3daad418a86b4dde1b6b5f3caa07857c2e202ebeef8e74036697'
 # login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -20,19 +21,24 @@ login_manager.init_app(app)
 # generate database schema
 Base.metadata.create_all(engine)
 
-debug = False;
+@login_manager.user_loader
+def load_user(user_id):
+
+    return UserEntity.query.fil(user_id)
+
+debug = False
 
 @app.route("/users", methods = ['GET'])
 def get_users():
     """Function used to fetch all users from the database"""
-    session = Session()
-    user_objects = session.query(UserEntity).all()
+    db_session = Session()
+    user_objects = db_session.query(UserEntity).all()
 
     # transforming into JSON
     schema = UserSchema(many=True)
     users = schema.dump(user_objects)
 
-    session.close()
+    db_session.close()
     return jsonify(users)
 
 @app.route("/users/login", methods = ['POST'])
@@ -43,8 +49,8 @@ def get_password():
     mail = request.json.get('mail')
     password = request.json.get('password')
     # Database interaction
-    session = Session()
-    result = session.execute(select(UserEntity).where(UserEntity.mail == mail)) 
+    db_session = Session()
+    result = db_session.execute(select(UserEntity).where(UserEntity.mail == mail)) 
     entries = []
     for user_obj in result.scalars():
             entries.append({
@@ -52,6 +58,8 @@ def get_password():
                 'username': user_obj.username,
                 'role': user_obj.role
                 })
+            
+    r = db_session.query()
     
     if debug:
         print(f"Inputted mail: {mail}\nInputted password:{password}")
@@ -61,14 +69,14 @@ def get_password():
 
     # Check if no users with that mail
     if len(entries) == 0 or len(entries) > 1:
-        session.close()
+        db_session.close()
         return {'result': False}
 
     if password == entries[0]['password']:
-        session.close()
+        db_session.close()
         return {'result': True, 'username': entries[0]['username'], 'role': entries[0]['role']}
 
-    session.close()
+    db_session.close()
     return {'result': False}
 
 @app.route("/users", methods = ['POST'])
@@ -85,9 +93,9 @@ def add_user():
     user = UserEntity(**posted_user, created_by="HTTP post request")
 
     # Database interaction
-    session = Session()
+    db_session = Session()
     # Check if mail is in use
-    result = session.execute(select(UserEntity).where(UserEntity.mail == user.mail))
+    result = db_session.execute(select(UserEntity).where(UserEntity.mail == user.mail))
 
     # Debug info
     if debug:
@@ -101,11 +109,11 @@ def add_user():
         print(f"Result.all() length: {len(result.all())}")
 
     if len(result.all()) > 0:
-        session.close()
+        db_session.close()
         return {'result': False, 'message': 'Correo electrónico ya en uso.'}, 201
     
-    session.add(user)
-    session.commit()
-    session.close()
+    db_session.add(user)
+    db_session.commit()
+    db_session.close()
 
     return {'result': True}, 201
