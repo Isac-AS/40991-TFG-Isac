@@ -60,7 +60,6 @@ export class TestingPageComponent implements OnInit {
   }
 
   fetchCurrentUserData() {
-    console.log("a")
     this.userAPIService.getCurrentUserData().subscribe({
       next: res => {
         console.log(res)

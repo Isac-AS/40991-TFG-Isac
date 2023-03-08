@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
+from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_required, login_user, logout_user
 
 from src import db, login_manager, bcrypt
@@ -13,7 +13,9 @@ def get_users():
     """Function used to fetch all users from the database"""
     user_objects = User.query.all()
     dictionaries = [user.as_dict() for user in user_objects]
-    return jsonify(dictionaries)
+    response = jsonify(dictionaries)
+    response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+    return response, 201
 
 # LOGIN related functionality
 @accounts_bp.route("/register", methods=["POST"])
@@ -25,7 +27,9 @@ def register():
     there is no other entity with the same e-mail.
     """
     if current_user.is_authenticated:
-        return jsonify({'result': False, 'message': 'Hay un usuario registrado en la sesión.', 'user': None}), 201
+        response = jsonify({'result': False, 'message': 'Hay un usuario registrado en la sesión.', 'user': None})
+        response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+        return response, 201
     # User schema creation
     user = User(
         username=request.json.get('username'),
@@ -50,19 +54,25 @@ def register():
         print(f"Result.all() length: {len(result.all())}")
 
     if len(result.all()) > 0:
-        return jsonify({'result': False, 'message': 'Correo electrónico ya en uso.', 'user': None}), 201
+        response = jsonify({'result': False, 'message': 'Correo electrónico ya en uso.', 'user': None})
+        response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+        return response, 201
     
     db.session.add(user)
     db.session.commit()
     login_user(user)
 
-    return jsonify({'result': True, 'message': 'Éxito en el registro de usuario.', 'user': user.as_dict()}), 201
+    response = jsonify({'result': True, 'message': 'Éxito en el registro de usuario.', 'user': user.as_dict()})
+    response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+    return response, 201
 
 
 @accounts_bp.route("/login", methods=["POST"])
 def login():
     if current_user.is_authenticated:
-        return jsonify({'result': False, 'message': 'Hay un usuario registrado en la sesión.', 'user': None}), 201
+        response = jsonify({'result': False, 'message': 'Hay un usuario registrado en la sesión.', 'user': None})
+        response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+        return response, 201
     
     data = request.json
     email = data.get("email")
@@ -79,8 +89,10 @@ def login():
     if bcrypt.check_password_hash(user.password, password):
         login_user(user)
         print(current_user)
-        return jsonify({'result': True, 'message': 'Éxito en el inicio de sesión.', 'user': user.as_dict()}), 201
-    return jsonify({'result': False, 'message': 'Error en el inicio de sesión.', 'user': None}), 201
+        response = jsonify({'result': True, 'message': 'Éxito en el inicio de sesión.', 'user': user.as_dict()})
+        return response, 201
+    response = jsonify({'result': False, 'message': 'Error en el inicio de sesión.', 'user': None})
+    return response, 201
 
 
 @accounts_bp.route("/logout", methods=["GET"])
@@ -91,7 +103,9 @@ def logout():
     logout_user()
     print("\nAfter logout:")
     print_logged_in_user()
-    return jsonify({'result': True, 'message': 'Sesión cerrada con éxito.', 'user': None})
+    response = jsonify({'result': True, 'message': 'Sesión cerrada con éxito.', 'user': None})
+    response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+    return response, 201
 
 
 @accounts_bp.route("/accounts/current_user_data", methods=["GET"])
@@ -99,15 +113,23 @@ def user_data():
     if current_user.is_authenticated:
         user = login_manager.load_user(current_user.id)
         print_logged_in_user()
-        return jsonify({'result': True, 'message': 'Usuario autenticado con los siguientes datos.', 'user': user.as_dict()})
-    return jsonify({'result': False, 'message': 'No hay ningún usuario autenticado.', 'user': None})
+        response = jsonify({'result': True, 'message': 'Usuario autenticado con los siguientes datos.', 'user': user.as_dict()})
+        response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+        return response, 201
+    response = jsonify({'result': False, 'message': 'No hay ningún usuario autenticado.', 'user': None})
+    response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+    return response, 201
 
 @accounts_bp.route("/accounts/getsession", methods=["GET"])
 def check_session():
     print(current_user)
     if current_user.is_authenticated:
-        return jsonify({'result': True, 'message': 'Hay un usuario autenticado.', 'user': None})
-    return jsonify({'result': False, 'message': 'No hay ningún usuario autenticado.', 'user': None})
+        response = jsonify({'result': True, 'message': 'Hay un usuario autenticado.', 'user': None})
+        response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+        return response, 201
+    response = jsonify({'result': False, 'message': 'No hay ningún usuario autenticado.', 'user': None})
+    response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
+    return response, 201
 
 def print_logged_in_user():
     if debug:

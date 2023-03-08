@@ -1,5 +1,5 @@
 from decouple import config
-from flask import Flask, jsonify
+from flask import Flask, jsonify, session
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -9,6 +9,7 @@ from flask_wtf.csrf import CSRFProtect, generate_csrf
 # create flask application
 app = Flask(__name__)
 app.config.from_object(config("APP_SETTINGS"))
+app.config['SECRET_KEY'] = 'secret'
 
 # login manager
 login_manager = LoginManager()
@@ -35,6 +36,7 @@ login_manager.login_message_category = "danger"
 # Common api methods
 @app.route("/api/ping", methods=["GET", "POST"])
 def home():
+    print(session)
     #db.create_all()
     return jsonify({"ping": "pong!"})
 
