@@ -1,8 +1,7 @@
 from flask import Blueprint, jsonify, request
-from flask_cors import cross_origin
 from flask_login import current_user, login_required, login_user, logout_user
 
-from src import db, login_manager, bcrypt
+from src import db, bcrypt
 from src.accounts.models import User
 
 accounts_bp = Blueprint("accounts", __name__)

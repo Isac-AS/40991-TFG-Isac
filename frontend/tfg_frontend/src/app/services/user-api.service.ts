@@ -1,13 +1,17 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from '@angular/common/http'
-import { Observable, throwError } from "rxjs";
-import { catchError } from "rxjs";
 import { API_URL } from "../env";
+import { catchError } from "rxjs";
+import { Injectable } from "@angular/core";
+import { Observable, throwError } from "rxjs";
+import { HttpClient } from '@angular/common/http'
+import { GlobalService } from "./global.service";
 import { User, UserRelatedResponse } from "../models/user.model";
 
 @Injectable()
 export class UserApiService {
-    constructor(private http: HttpClient) {}
+    constructor(
+        private http: HttpClient,
+        public globalService: GlobalService,
+        ) {}
 
     // GET list of users
     getUsers(): Observable<User[]> {
@@ -40,6 +44,32 @@ export class UserApiService {
     // User data
     getCurrentUserData(): Observable<UserRelatedResponse> {
         return this.http.get<UserRelatedResponse>(`${API_URL}/accounts/current_user_data`, { withCredentials: true });
+    }
+
+    /**
+     * Function that will query the current session in the database and will updates the values 
+     * of the "global service" "loggedInfo" object.
+     */
+    updateCurrentUserData() {
+        this.getCurrentUserData().subscribe({
+            next: res => {
+                if (res.result == true) {
+                    this.globalService.loggedInfo.next({
+                        isLoggedIn: true,
+                        username: res.user.username,
+                        role: res.user.role,
+                        is_admin: res.user.is_admin,
+                    })
+                } else {
+                    this.globalService.loggedInfo.next({
+                        isLoggedIn: false,
+                        username: '',
+                        role: '0',
+                        is_admin: false,
+                    })
+                }
+            }
+        })
     }
 
 }

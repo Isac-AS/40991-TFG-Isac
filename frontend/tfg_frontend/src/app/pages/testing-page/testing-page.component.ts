@@ -69,6 +69,12 @@ export class TestingPageComponent implements OnInit {
           this.currentUser.username = res.user.username;
           this.currentUser.password = res.user.password;
           this.currentUser.is_admin = res.user.is_admin;
+        } else {
+          this.currentUser.email = '';
+          this.currentUser.role = '';
+          this.currentUser.username = '';
+          this.currentUser.password = ''
+          this.currentUser.is_admin = false;
         }
       }
     })

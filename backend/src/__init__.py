@@ -1,5 +1,5 @@
 from decouple import config
-from flask import Flask, jsonify, session
+from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -35,10 +35,8 @@ def load_user(user_id):
 # Common api methods
 @app.route("/api/ping", methods=["GET", "POST"])
 def home():
-    print(session.values)
     #db.create_all()
     return jsonify({"ping": "pong!"})
-
 
 @app.route("/api/getcsrf", methods=["GET"])
 def get_csrf():

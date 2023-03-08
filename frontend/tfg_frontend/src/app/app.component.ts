@@ -3,6 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { GlobalService } from './services/global.service';
+import { UserApiService } from './services/user-api.service';
 
 @Component({
   selector: 'app-root',
@@ -22,18 +23,24 @@ export class AppComponent {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    public globalService: GlobalService
+    public globalService: GlobalService,
+    private userAPIService: UserApiService
   ) {
+    // Subscription to pageName. All pages must change the page name in their constructor
     this.globalService.pageName.subscribe({
       next: newValue => {
         this.currentPageName = newValue.currentPageName;
       }
     })
-
+    
+    // Subscription to global service as the service that will have the visibility information 
+    // controlling what is seen by the user depending on the role and logged in status.
     this.globalService.loggedInfo.subscribe({
       next: newValue => {
         this.currentLoggedUserRole = newValue.role;
       }
     })
+    
+    this.userAPIService.updateCurrentUserData();
   }
 }

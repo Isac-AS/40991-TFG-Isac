@@ -19,13 +19,13 @@ export class HeaderComponent {
     public globalService: GlobalService,
     private userAPI: UserApiService,
     ) {
-    
     this.globalService.loggedInfo.subscribe({
       next: newValue => {
         this.loggedInCondition = newValue.isLoggedIn;
         this.currentUserName = newValue.username;
       }
     })
+    this.userAPI.updateCurrentUserData();
   }
 
   logOut() {
@@ -37,7 +37,8 @@ export class HeaderComponent {
     this.globalService.loggedInfo.next({
       isLoggedIn: false,
       username: '',
-      role: '0'
+      role: '0',
+      is_admin: false,
     })
   }
 
