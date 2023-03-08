@@ -3,6 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { GlobalService } from 'src/app/services/global.service';
+import { UserApiService } from 'src/app/services/user-api.service';
 
 
 @Component({
@@ -15,7 +16,8 @@ export class HeaderComponent {
   currentUserName = '';
   
   constructor(
-    public globalService: GlobalService
+    public globalService: GlobalService,
+    private userAPI: UserApiService,
     ) {
     
     this.globalService.loggedInfo.subscribe({
@@ -27,6 +29,11 @@ export class HeaderComponent {
   }
 
   logOut() {
+    this.userAPI.logOut().subscribe({
+      next: res => {
+        console.log(res)
+      }
+    })
     this.globalService.loggedInfo.next({
       isLoggedIn: false,
       username: '',

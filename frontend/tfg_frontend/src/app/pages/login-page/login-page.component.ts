@@ -33,15 +33,19 @@ export class LoginPageComponent {
   }
 
   login() {
-    this.userAPI.verifyPassword(this.userForm.value.email!, this.userAPI.hash(this.userForm.value.password!))
+    this.userAPI.login(
+      this.userForm.value.email!,
+      this.userForm.value.password!)
     .subscribe({
       next: (res) => {
         if (res.result == true) {
+          console.log(res)
           this._snackBar.open("¡Inicio de sesión correcto!", "Continuar", {duration: 3000});
           this.globalService.loggedInfo.next({
             isLoggedIn: true,
-            username: res.username,
-            role: res.role,
+            username: res.user.username,
+            role: res.user.role,
+            is_admin: res.user.is_admin
           })
           this.router.navigate(["/"]);
         } else if (res.result == false) {

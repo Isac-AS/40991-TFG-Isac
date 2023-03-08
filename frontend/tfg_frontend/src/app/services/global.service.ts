@@ -12,6 +12,7 @@ export class GlobalService {
     public loggedInfo = new BehaviorSubject<any>({
         isLoggedIn: false,
         username: '',
-        role: '0'
+        role: '0',
+        is_admin: false,
     });
 }

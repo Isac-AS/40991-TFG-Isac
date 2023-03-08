@@ -12,9 +12,5 @@ export class BackendAPIService {
     ping(): any {
         console.log("Request: ping")
         return this.http.post(`${API_URL}/api/ping`, {'': ''})
-        return this.http.get<any>(`${API_URL}/api/ping`).pipe(
-            catchError(error => {
-                return throwError(() => new Error(error.message))
-            }))
     }
 }

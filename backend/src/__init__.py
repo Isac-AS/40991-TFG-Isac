@@ -2,7 +2,7 @@ from decouple import config
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager, current_user, login_required, logout_user
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 
@@ -29,9 +29,10 @@ from src.accounts.models import User
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.filter(User.id == int(user_id)).first()
-
 login_manager.login_view = "accounts.login"
+login_manager.login_message_category = "danger"
 
+# Common api methods
 @app.route("/api/ping", methods=["GET", "POST"])
 def home():
     #db.create_all()
@@ -44,22 +45,3 @@ def get_csrf():
     response = jsonify({"detail": "CSRF cookie set"})
     response.headers.set("X-CSRFToken", token)
     return response
-
-@app.route("/api/data", methods=["GET"])
-@login_required
-def user_data():
-    user = load_user(current_user.id)
-    return jsonify({"username": user["username"]})
-
-@app.route("/api/getsession", methods=["GET"])
-def check_session():
-    if current_user.is_authenticated:
-        return jsonify({"login": True})
-    return jsonify({"login": False})
-
-
-@app.route("/api/logout", methods=["GET"])
-@login_required
-def logout():
-    logout_user()
-    return jsonify({"logout": True})

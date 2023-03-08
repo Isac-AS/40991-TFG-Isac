@@ -28,9 +28,6 @@ class DevelopmentConfig(Config):
     DEBUG = True
     WTF_CSRF_ENABLED = False
     DEBUG_TB_ENABLED = True
-    SESSION_COOKIE_HTTPONLY=True,
-    REMEMBER_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE="Lax",
 
 class TestingConfig(Config):
     TESTING = True

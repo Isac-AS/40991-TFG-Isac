@@ -13,3 +13,9 @@ export class User {
     ) {
     }
 }
+
+export interface UserRelatedResponse {
+    result: boolean,
+    user: User,
+    message: String
+}

@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs";
 import { API_URL } from "../env";
-import { User } from "../models/user.model";
-import * as shajs from 'sha.js';
+import { User, UserRelatedResponse } from "../models/user.model";
 
 @Injectable()
 export class UserApiService {
@@ -19,16 +18,28 @@ export class UserApiService {
     }
 
     // POST to get answer on whether the password is correct
-    verifyPassword(mail: string, password: string): Observable<any>{
-        return this.http.post<string>(`${API_URL}/users/login`, {'mail': mail, 'password': password})
+    login(email: string, password: string): Observable<UserRelatedResponse>{
+        return this.http.post<UserRelatedResponse>(`${API_URL}/login`, {'email': email, 'password': password})
     }
 
-    // POST action
-    register(user: User): Observable<any> {
-        return this.http.post(`${API_URL}/register`, user);
+    // POST action to register a potentially new user
+    register(user: User): Observable<UserRelatedResponse> {
+        return this.http.post<UserRelatedResponse>(`${API_URL}/register`, user);
+    }
+    
+    // GET to logout
+    logOut(): Observable<UserRelatedResponse> {
+        return this.http.get<UserRelatedResponse>(`${API_URL}/logout`);
+    }
+    
+    // Check if there is a current user
+    idAuthenticated(): Observable<UserRelatedResponse> {
+        return this.http.get<UserRelatedResponse>(`${API_URL}/accounts/getsession`);
     }
 
-    hash(string: string) {
-        return shajs('sha256').update(string).digest('hex')
+    // User data
+    getCurrentUserData(): Observable<UserRelatedResponse> {
+        return this.http.get<UserRelatedResponse>(`${API_URL}/accounts/current_user_data`);
     }
+
 }

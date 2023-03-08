@@ -50,7 +50,7 @@ export class RegisterPageComponent {
 
   register() {
     this.userData.username = this.userForm.value.username!;
-    this.userData.password = this.userAPI.hash(this.userForm.value.password!);
+    this.userData.password = this.userForm.value.password!;
     this.userData.email = this.userForm.value.email!;
     this.userData.role = this.userForm.value.role!;
     this.userAPI
@@ -63,6 +63,7 @@ export class RegisterPageComponent {
               isLoggedIn: true,
               username: this.userData.username,
               role: this.userData.role,
+              is_admin: false
             })
             this.router.navigate(["/"]);
           } else if (res.result == false) {
