@@ -9,7 +9,8 @@ from flask_wtf.csrf import CSRFProtect, generate_csrf
 # create flask application
 app = Flask(__name__)
 app.config.from_object(config("APP_SETTINGS"))
-app.config['SECRET_KEY'] = 'secret'
+app.secret_key = 'soadbausodboas'
+app.config.update(SESSION_COOKIE_SAMESITE="None", SESSION_COOKIE_SECURE=True)
 
 # login manager
 login_manager = LoginManager()
@@ -17,7 +18,7 @@ login_manager.init_app(app)
 login_manager.session_protection = "strong"
 
 csrf = CSRFProtect(app)
-cors = CORS(app)
+cors = CORS(app, supports_credentials=True)
 
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
@@ -30,13 +31,11 @@ from src.accounts.models import User
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.filter(User.id == int(user_id)).first()
-login_manager.login_view = "accounts.login"
-login_manager.login_message_category = "danger"
 
 # Common api methods
 @app.route("/api/ping", methods=["GET", "POST"])
 def home():
-    print(session)
+    print(session.values)
     #db.create_all()
     return jsonify({"ping": "pong!"})
 

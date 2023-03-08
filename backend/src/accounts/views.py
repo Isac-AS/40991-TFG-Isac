@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from flask_cors import cross_origin
 from flask_login import current_user, login_required, login_user, logout_user
 
 from src import db, login_manager, bcrypt
@@ -14,22 +15,23 @@ def get_users():
     user_objects = User.query.all()
     dictionaries = [user.as_dict() for user in user_objects]
     response = jsonify(dictionaries)
-    response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
-    return response, 201
+    return response
 
 # LOGIN related functionality
 @accounts_bp.route("/register", methods=["POST"])
 def register():
     """
-    Function used to register a new user
+    Function used to register a new user.
     The 4 user inputted fields will be extracted from the response.
     A new user entity will be created and added to the database if 
     there is no other entity with the same e-mail.
+    
+    :return: Success of the register process.
+    :rtype: UserRelatedResponse
     """
     if current_user.is_authenticated:
         response = jsonify({'result': False, 'message': 'Hay un usuario registrado en la sesión.', 'user': None})
-        response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
-        return response, 201
+        return response
     # User schema creation
     user = User(
         username=request.json.get('username'),
@@ -55,24 +57,28 @@ def register():
 
     if len(result.all()) > 0:
         response = jsonify({'result': False, 'message': 'Correo electrónico ya en uso.', 'user': None})
-        response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
-        return response, 201
+        return response
     
     db.session.add(user)
     db.session.commit()
     login_user(user)
 
     response = jsonify({'result': True, 'message': 'Éxito en el registro de usuario.', 'user': user.as_dict()})
-    response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
-    return response, 201
+    return response
 
 
 @accounts_bp.route("/login", methods=["POST"])
 def login():
+    """
+    Function to log in an existing user. Will check wheter there is a user already authenticated and 
+    whether the email and password are correct.
+    
+    :return: Success of the login process
+    :rtype: UserRelatedResponse
+    """
     if current_user.is_authenticated:
         response = jsonify({'result': False, 'message': 'Hay un usuario registrado en la sesión.', 'user': None})
-        response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
-        return response, 201
+        return response
     
     data = request.json
     email = data.get("email")
@@ -88,54 +94,58 @@ def login():
     
     if bcrypt.check_password_hash(user.password, password):
         login_user(user)
-        print(current_user)
         response = jsonify({'result': True, 'message': 'Éxito en el inicio de sesión.', 'user': user.as_dict()})
-        return response, 201
+        return response
     response = jsonify({'result': False, 'message': 'Error en el inicio de sesión.', 'user': None})
-    return response, 201
+    return response
 
 
 @accounts_bp.route("/logout", methods=["GET"])
-#@login_required
+@login_required
 def logout():
-    print("Before logout:")
-    print_logged_in_user()
+    """Function to log the current user out. Will send a cookie back sayin that it expired de moment this 
+    quantum fluctuation of the universe was created, the big bang, also known as 01/01/1970 00:00:00 GMT
+
+    :return: Success of the process
+    :rtype: UserRelatedResponse
+    """
     logout_user()
-    print("\nAfter logout:")
-    print_logged_in_user()
     response = jsonify({'result': True, 'message': 'Sesión cerrada con éxito.', 'user': None})
-    response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
-    return response, 201
+    return response
 
 
 @accounts_bp.route("/accounts/current_user_data", methods=["GET"])
 def user_data():
+    """Fetches current user data.
+
+    :return: Will return the status of the request and user data
+    :rtype: UserRelatedResponse
+    """
     if current_user.is_authenticated:
-        user = login_manager.load_user(current_user.id)
-        print_logged_in_user()
-        response = jsonify({'result': True, 'message': 'Usuario autenticado con los siguientes datos.', 'user': user.as_dict()})
-        response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
-        return response, 201
+        response = jsonify({'result': True, 'message': 'Usuario autenticado con los siguientes datos.', 'user': current_user.as_dict()})
+        return response
     response = jsonify({'result': False, 'message': 'No hay ningún usuario autenticado.', 'user': None})
-    response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
-    return response, 201
+    return response
+
 
 @accounts_bp.route("/accounts/getsession", methods=["GET"])
 def check_session():
-    print(current_user)
+    """Returns simple UserRelatedResponse with no data, just True or False whether there is a user logged in or not
+
+    :return: Returns whether there is a user authenticated
+    :rtype: UserRelatedResponse
+    """
     if current_user.is_authenticated:
         response = jsonify({'result': True, 'message': 'Hay un usuario autenticado.', 'user': None})
-        response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
-        return response, 201
+        return response
     response = jsonify({'result': False, 'message': 'No hay ningún usuario autenticado.', 'user': None})
-    response.headers.add('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-auth")
-    return response, 201
+    return response
 
 def print_logged_in_user():
-    if debug:
-        print("Logged in user:")
+    if debug and current_user.is_authenticated:
+        print("\nCurrent Logged in user:")
         print(f"Username: {current_user.username}")
         print(f"Is authenticated: {current_user.is_authenticated}")
         print(f"Is active: {current_user.is_active}")
         print(f"Is anonymous: {current_user.is_anonymous}")
-        print(f"Id: {current_user.get_id()}")
+        print(f"Id: {current_user.get_id()}\n")
