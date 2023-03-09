@@ -22,6 +22,9 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/common/header/header.component';
 import { FooterComponent } from './components/common/footer/footer.component';
 
+// Dialogs
+import { UserDeletionDialogContent } from './pages/user-management-page/user-management-page.component';
+
 // Services
 import { UserApiService } from './services/user-api.service';
 import { BackendAPIService } from './services/backend.service';
@@ -38,6 +41,8 @@ import { BackendAPIService } from './services/backend.service';
     RegisterPageComponent,
     UserManagementPageComponent,
     TestingPageComponent,
+
+    UserDeletionDialogContent,
   ],
   imports: [
     BrowserModule,

@@ -20,9 +20,53 @@ table {
 
 td,
 th {
-    width: 20%;
+    width: 16%;
 }
 
 #user-information-card {
     margin: 3em 2em;
+}
+
+// User modification tab
+// @use '@angular/material' as mat;
+
+#modification-banner {
+    justify-self: center;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+    margin: 3em 25% 1em 25%;
+    padding-bottom: 1em;
+}
+
+.user-form-card {
+    margin: 3em 25% 2em 25%;
+    padding-bottom: 1em;
+}
+
+.user-form-content {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+    gap: 1em;
+}
+
+mat-form-field {
+    width: stretch;
+}
+
+#submit-card-actions {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+}
+
+.error-form-card {
+    margin: 3em 25% 2em 25%;
+    padding-bottom: 1em;
+    background-color: rgba(239, 113, 113, 0.525);
 }

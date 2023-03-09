@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_required, login_user, logout_user
 
@@ -15,6 +16,55 @@ def get_users():
     dictionaries = [user.as_dict() for user in user_objects]
     response = jsonify(dictionaries)
     return response
+
+@accounts_bp.route("/accounts/delete", methods=["POST"])
+@login_required
+def delete_user():
+    if not current_user.is_admin:
+        response = jsonify({'result': False, 'message': 'No tiene los permisos para eliminar un usario.', 'user': None})
+        return response
+    
+    # Get user id from the response
+    user_id = request.json.get('id')
+    # Find the user in the database
+    user: User = db.session.execute(db.select(User).filter_by(id = user_id)).scalar_one()
+    # Delete the user
+    db.session.delete(user)
+    db.session.commit()
+
+    response = jsonify({'result': True, 'message': f'Usario {user.username} eliminado con éxito.', 'user': None})
+    return response
+
+@accounts_bp.route("/accounts/modify", methods=["POST"])
+@login_required
+def modify_user():
+    if not current_user.is_admin:
+        response = jsonify({'result': False, 'message': 'No tiene los permisos para modificar un usario.', 'user': None})
+        return response
+    
+    # Get user id from the response
+    request_user = request.json.get('user')
+    # Find the user in the database
+    user: User = db.session.execute(db.select(User).filter_by(id = request_user['id'])).scalar_one()
+    # Mail validation
+    email_validation = db.session.execute(db.select(User).where(User.email == request_user['email']))
+    if len(email_validation.all()) > 0:
+        response = jsonify({'result': False, 'message': 'Ya existe un usuario con este correo.', 'user': None})
+        return response
+    # Update the database selected user fields
+    user.username = request_user['username']
+    user.password = bcrypt.generate_password_hash(request_user['password']).decode('utf-8')
+    user.email = request_user['email']
+    user.role = request_user['role']
+    user.last_modified_by = "Admin"
+    user.updated_at = datetime.now()
+    # Commiting apparently save the modified user
+    db.session.commit()
+
+    response = jsonify({'result': True, 'message': f'Usario modificado con éxito.', 'user': user.as_dict()})
+    return response
+
+
 
 # LOGIN related functionality
 @accounts_bp.route("/register", methods=["POST"])
@@ -37,7 +87,8 @@ def register():
         email=request.json.get('email'),
         role=request.json.get('role'),
         password=request.json.get('password'),
-        created_by='Self-registration'
+        created_by='Self-registration',
+        last_modified_by='Self'
         )
 
     # Check if mail is in use

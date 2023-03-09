@@ -22,8 +22,7 @@ export class RegisterPageComponent {
 
   possibleRoles = [
     {name: 'Personal sanitario', databaseName: '1'},
-    {name: 'Científico de datos/Desarrollador', databaseName: '2'},
-    {name: 'Administrador', databaseName: '3'},
+    {name: 'Científico de datos/Desarrollador', databaseName: '2'}
   ]
 
   userData: User = {

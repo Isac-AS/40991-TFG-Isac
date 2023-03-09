@@ -41,9 +41,19 @@ export class UserApiService {
         return this.http.get<UserRelatedResponse>(`${API_URL}/accounts/getsession`, { withCredentials: true });
     }
 
-    // User data
+    // Fetch CURRENT User data
     getCurrentUserData(): Observable<UserRelatedResponse> {
         return this.http.get<UserRelatedResponse>(`${API_URL}/accounts/current_user_data`, { withCredentials: true });
+    }
+
+    // Dete user
+    deleteUser(user_id: number): Observable<UserRelatedResponse> {
+        return this.http.post<UserRelatedResponse>(`${API_URL}/accounts/delete`, {'id': user_id}, {withCredentials: true})
+    }
+
+    // Modify user
+    modifyUser(user: User): Observable<UserRelatedResponse>{
+        return this.http.post<UserRelatedResponse>(`${API_URL}/accounts/modify`, {'user': user}, {withCredentials: true})
     }
 
     /**

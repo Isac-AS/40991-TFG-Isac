@@ -9,7 +9,7 @@ export class User {
         public updated_at?: string,
         public created_at?: string,
         public created_by?: string,
-        public last_updated_by?: string,
+        public last_modified_by?: string,
     ) {
     }
 }
@@ -17,5 +17,5 @@ export class User {
 export interface UserRelatedResponse {
     result: boolean,
     user: User,
-    message: String
+    message: string
 }

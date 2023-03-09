@@ -1,4 +1,5 @@
-<mat-tab-group>
+<mat-tab-group (selectedTabChange)="updateForm()">
+  <!--User table tab-->
   <mat-tab label="Tabla de usuarios">
     <div id="tab-wrapper">
       <mat-form-field>
@@ -44,6 +45,18 @@
               <td mat-cell *matCellDef="let row"> {{row.role}} </td>
             </ng-container>
 
+            <!-- Delete Column -->
+            <ng-container matColumnDef="delete">
+              <th mat-header-cell *matHeaderCellDef>
+                Eliminar usuario
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-mini-fab color="warn" [value]="element" (click)="openUserDeletionDialog(element.id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
@@ -60,6 +73,8 @@
     </div>
     <div style="padding: 2em;"></div>
   </mat-tab>
+
+  <!--User Info tab-->
   <mat-tab label="Información del usuario">
     <mat-card id="user-information-card">
       <mat-card-header>
@@ -86,6 +101,10 @@
             <span matListItemLine>{{selectedUser.id}}</span>
           </mat-list-item>
           <mat-list-item>
+            <span matListItemTitle>Es administrador</span>
+            <span matListItemLine>{{selectedUser.is_admin}}</span>
+          </mat-list-item>
+          <mat-list-item>
             <span matListItemTitle>Fecha de registro</span>
             <span matListItemLine>{{selectedUser.created_at}}</span>
           </mat-list-item>
@@ -94,12 +113,92 @@
             <span matListItemLine>{{selectedUser.updated_at}}</span>
           </mat-list-item>
           <mat-list-item>
+            <span matListItemTitle>Usuario creado por: </span>
+            <span matListItemLine>{{selectedUser.created_by}}</span>
+          </mat-list-item>
+          <mat-list-item>
             <span matListItemTitle>Última modificación realizada por: </span>
-            <span matListItemLine>{{selectedUser.last_updated_by}}</span>
+            <span matListItemLine>{{selectedUser.last_modified_by}}</span>
           </mat-list-item>
         </mat-list>
       </mat-card-content>
     </mat-card>
+  </mat-tab>
 
+  <!--User edition tab-->
+  <mat-tab label="Modificar usuario">
+    <mat-card id="modification-banner" color="primary" [class.mat-elevation-z8]="true">
+      <mat-card-header>
+        <mat-card-title>
+          Modificar datos
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Modificación de datos del usuario: {{selectedUser.username}}
+      </mat-card-content>
+    </mat-card>
+    
+    <form [formGroup]="userForm" (ngSubmit)="modify()">
+      <mat-card class="user-form-card">
+        <mat-card-header>
+          <mat-card-title>
+            Datos del usuario de usuario
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="user-form-content">
+          <!-- username -->
+          <mat-form-field>
+            <input matInput placeholder="Nombre de usuario" formControlName="username">
+            <mat-error *ngIf="userForm.controls['username'].hasError('required')">
+              El nombre de usuario es <strong>obligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+          <!-- email -->
+          <mat-form-field>
+            <input matInput placeholder="Correo electrónico" formControlName="email">
+            <mat-error *ngIf="userForm.controls['email'].hasError('required')">
+              El correo electrónico es <strong>obligatorio</strong>
+            </mat-error>
+            <mat-error *ngIf="userForm.controls['email'].hasError('email')">
+              Introduzca un correo electrónico correcto
+            </mat-error>
+          </mat-form-field>
+          <!-- role -->
+          <mat-form-field>
+            <mat-select placeholder="Perfil" formControlName="role">
+              <mat-option *ngFor="let role of possibleRoles" [value]="role.databaseName">
+                {{ role.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="userForm.controls['role'].hasError('required')">
+              El perfil es <strong>obligatorio</strong>
+            </mat-error>
+          </mat-form-field>
+          <!-- password -->
+          <mat-form-field>
+            <input matInput type="password" placeholder="Contraseña" formControlName="password">
+            <mat-error *ngIf="userForm.controls['password'].hasError('required')">
+              La contraseña es <strong>obligatoria</strong>
+            </mat-error>
+            <mat-error *ngIf="userForm.controls['password'].hasError('minlength')">
+              La contraseña debe tener más de 6 caracteres
+            </mat-error>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions id="submit-card-actions">
+          <button mat-raised-button color="accent" type="submit" [disabled]="!userForm.valid && (selectedUser.id == -1)">Modificar usuario</button>
+        </mat-card-actions>
+      </mat-card>
+      <mat-card class="error-form-card" *ngIf="invalidAnswerFromBackend">
+        <mat-card-header>
+          <mat-card-title>
+            Se han encontado los siguientes errores:
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          {{backendMessage}}
+        </mat-card-content>
+      </mat-card>
+    </form>
   </mat-tab>
 </mat-tab-group>

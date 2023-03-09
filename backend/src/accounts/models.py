@@ -21,7 +21,7 @@ class User(UserMixin, db.Model):
     created_by = db.Column(db.String, nullable=False)
     last_modified_by = db.Column(db.String, nullable=True)
 
-    def __init__(self, username, email, password, role, created_by, is_admin=False):
+    def __init__(self, username, email, password, role, created_by, last_modified_by, is_admin=False):
         self.username = username
         self.email = email
         self.role = role
@@ -30,7 +30,7 @@ class User(UserMixin, db.Model):
         self.updated_at = datetime.now()
         self.is_admin = is_admin
         self.created_by = created_by
-        self.last_modified_by = created_by
+        self.last_modified_by = last_modified_by
 
     def __repr__(self):
         return f"User: <Username: {self.username}><Email: {self.email}>"
