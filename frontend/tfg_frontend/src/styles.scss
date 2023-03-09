@@ -1,39 +1,55 @@
 
-//@use '@angular/material' as mat;
-//@include mat.core();
+@use '@angular/material' as mat;
+
+// Non mat components
+@use './app/components/common/footer/_footer.component-theme.scss' as footer_theme;
+
+// Mat core
+@include mat.core();
 //@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 //@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 //@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
-@import "~@angular/material/prebuilt-themes/purple-green.css";
+//@import "~@angular/material/prebuilt-themes/purple-green.css";
 
 // Dark theme definition
-/*$dark-theme: mat.define-dark-theme((color: (primary: mat.define-palette(mat.$deep-purple-palette),
-        accent: mat.define-palette(mat.$amber-palette, 100, 500, A100),
-      ),
+$dark-theme: mat.define-dark-theme((
+  color: (
+    primary: mat.define-palette(mat.$purple-palette),
+    accent: mat.define-palette(mat.$green-palette, 100, 500, A100),
+    ),
       // Only include `typography` and `density` in the default dark theme.
       typography: mat.define-typography-config(),
       density: 0,
-    ));
+));
 
 // Light theme definition
-$light-theme: mat.define-light-theme((color: (primary: mat.define-palette(mat.$indigo-palette),
-        accent: mat.define-palette(mat.$pink-palette),
-      ),
-    ));*/
+$light-theme: mat.define-light-theme((
+  color: (
+    primary: mat.define-palette(mat.$indigo-palette),
+    accent: mat.define-palette(mat.$pink-palette),
+    ),
+));
 
 // Apply the dark theme by default
-//@include mat.core-theme($dark-theme);
-//@include mat.button-theme($dark-theme);
-//@include mat.all-component-themes($light-theme);
+@include mat.core-theme($dark-theme);
+@include mat.button-theme($dark-theme);
+@include mat.all-component-themes($dark-theme);
+
+// Specific component
+@include footer_theme.theme($dark-theme);
+
 
 // Apply the light theme only when the user prefers light themes.
-/*.dark-theme {
+@media (prefers-color-scheme: light) {
   // Use the `-color` mixins to only apply color styles without reapplying the same
   // typography and density styles.
-  @include mat.all-component-colors($dark-theme);
-  //@include mat.core-color($light-theme);
-  //@include mat.button-color($light-theme);
-}*/
+  @include mat.core-color($light-theme);
+  @include mat.button-color($light-theme);
+
+  // Specific components
+  @include footer_theme.theme($light-theme);
+}
+
 
 * {
   margin: 0;

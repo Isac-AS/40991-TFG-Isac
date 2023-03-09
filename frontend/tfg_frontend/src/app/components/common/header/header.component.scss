@@ -1,22 +1,58 @@
-#header-toolbar {
+.header-navbar {
   display: flex;
   flex-flow: row wrap;
+  align-items: center;
   justify-content: space-between;
+  padding: 8px 16px;
 }
 
-#header-title {
-  font-size: 1.8em;
-  font-weight: bolder;
+.header-title {
+  font-size: 1.5em;
+  font-weight: 550;
+}
+
+#header-button-container {
+  margin: 0.5em;
+  font-weight: 500;
+  font-size: 1.1em;
 }
 
 #header-button-container a {
-  margin: 0.5em;
-  font-weight: 600;
-  font-size: 1.1em;
+  margin: 1em;
 }
 
 #header-button-container button {
-  margin: 0.5em;
-  font-weight: 600;
-  font-size: 1.1em;
+  margin: 1em;
+}
+
+.header-small-navbar {
+  display: none;
+}
+
+.header-small-navbar a {
+  text-decoration: inherit;
+  flex: 1;
+}
+
+.header-small-navbar button {
+  text-decoration: inherit;
+  flex: 1;
+}
+
+/**
+  * Rules for when the device is detected to be a small screen.
+  * Moves content two rows instead of one.
+  */
+@media (max-width: 720px) {
+  .header-hide-small {
+    display: none;
+  }
+
+  .header-show-small {
+    display: block;
+  }
+
+  .header-small-navbar {
+    display: flex;
+  }
 }

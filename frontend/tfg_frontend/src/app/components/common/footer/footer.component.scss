@@ -1,6 +1,17 @@
-#footer-content {
+footer {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
     font-size: 1.5em;
+    padding: 8px;
 }
+
+footer a {
+    margin: 5px;
+}
+
+@media (max-width: 720px) {
+    footer {
+        flex-flow: column nowrap;
+    }
+  }

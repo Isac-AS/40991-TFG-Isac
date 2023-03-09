@@ -6,7 +6,7 @@ from src import db, bcrypt
 from src.accounts.models import User
 
 accounts_bp = Blueprint("accounts", __name__)
-debug = True
+debug = False
 
 # CRUD functionality
 @accounts_bp.route("/accounts/get_users", methods=["GET"])
