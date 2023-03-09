@@ -21,6 +21,7 @@ import { TestingPageComponent } from './pages/testing-page/testing-page.componen
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/common/header/header.component';
 import { FooterComponent } from './components/common/footer/footer.component';
+import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
 
 // Dialogs
 import { UserDeletionDialogContent } from './pages/user-management-page/user-management-page.component';
@@ -32,16 +33,20 @@ import { BackendAPIService } from './services/backend.service';
 
 @NgModule({
   declarations: [
+    // Components
     AppComponent,
-    HomePageComponent,
     HeaderComponent,
     FooterComponent,
-
+    ThemePickerComponent,
+    
+    // Pages
+    HomePageComponent,
     LoginPageComponent,
     RegisterPageComponent,
     UserManagementPageComponent,
     TestingPageComponent,
 
+    // Dialogs
     UserDeletionDialogContent,
   ],
   imports: [
