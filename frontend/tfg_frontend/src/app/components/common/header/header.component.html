@@ -1,4 +1,4 @@
-<header [class.mat-elevation-z8]="true">
+<header>
   <nav class="header-navbar">
     <a mat-raised-button color="accent" class="header-title" routerLink="/">
       <span>SisRegMed</span>
@@ -21,7 +21,7 @@
       </button>
     </div>
   </nav>
-  <nav class="header-small-navbar">
+  <nav class="header-small-navbar" [class.mat-elevation-z8]="true">
     <a mat-raised-button color="accent" routerLink="/login" *ngIf="!loggedInCondition">
       <mat-icon>login</mat-icon>
       Iniciar sesión
