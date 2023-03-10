@@ -1,0 +1,21 @@
+<mat-stepper [linear]="true">
+  <!--First step: recording audio-->
+  <mat-step>
+    <ng-template matStepLabel>
+      Realiza la grabación
+    </ng-template>
+    <app-audio-recorder></app-audio-recorder>
+  </mat-step>
+  <!--Second step: pipeline selection-->
+  <mat-step>
+    <ng-template matStepLabel>
+      Selecciona un pipeline
+    </ng-template>
+  </mat-step>
+  <!--Third step: wait for processing-->
+  <mat-step>
+    <ng-template matStepLabel>
+      Espera los resultados
+    </ng-template>
+  </mat-step>
+</mat-stepper>
