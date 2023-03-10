@@ -31,14 +31,19 @@ import { HeaderComponent } from './components/common/header/header.component';
 import { FooterComponent } from './components/common/footer/footer.component';
 import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
 import { AudioRecorderComponent } from './components/audio-recorder/audio-recorder.component';
+import { PipelineTableComponent } from './components/pipeline-table/pipeline-table.component';
 
 // Dialogs
 import { UserDeletionDialogContent } from './pages/user-management-page/user-management-page.component';
+import { EntryDeletionDialogComponent } from './components/entry-deletion-dialog/entry-deletion-dialog.component';
 
 // Services
-import { UserApiService } from './services/user-api.service';
 import { BackendAPIService } from './services/backend.service';
 import { AudioRecordingService } from './services/audio-recording.service';
+import { UserApiService } from './services/user-api.service';
+import { HeathRecordAPIService } from './services/health-record-api.service';
+import { PipelineAPIService } from './services/pipepile-api.service';
+import { StrategyAPIService } from './services/strategy-api.service';
 
 
 @NgModule({
@@ -49,6 +54,7 @@ import { AudioRecordingService } from './services/audio-recording.service';
     FooterComponent,
     ThemePickerComponent,
     AudioRecorderComponent,
+    PipelineTableComponent,
     
     // Pages
     HomePageComponent,
@@ -67,6 +73,7 @@ import { AudioRecordingService } from './services/audio-recording.service';
 
     // Dialogs
     UserDeletionDialogContent,
+    EntryDeletionDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -79,9 +86,12 @@ import { AudioRecordingService } from './services/audio-recording.service';
     CustomMaterialModule
   ],
   providers: [
-    UserApiService,
     BackendAPIService,
-    AudioRecordingService
+    AudioRecordingService,
+    UserApiService,
+    HeathRecordAPIService,
+    PipelineAPIService,
+    StrategyAPIService
   ],
   bootstrap: [AppComponent]
 })

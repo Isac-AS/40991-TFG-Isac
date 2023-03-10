@@ -14,9 +14,9 @@ class HealthRecord(db.Model):
     # Final health record (output of the last strategy)
     health_record = db.Column(db.String, unique=False, nullable=False)
     # All the outputs of the strategies run
-    processing_outputs = db.Column(db.JSONType, nullable=False)
+    processing_outputs = db.Column(db.JSON, nullable=False)
     # In case NER was used, this column will serve as an easy way later to represent the NER
-    named_entity_recognition = db.Column(db.String)
+    named_entity_recognition = db.Column(db.JSON)
 
 
     # Additional data

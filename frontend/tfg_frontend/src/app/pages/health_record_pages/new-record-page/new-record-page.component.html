@@ -1,21 +1,35 @@
-<mat-stepper [linear]="true">
+<mat-stepper>
   <!--First step: recording audio-->
   <mat-step>
     <ng-template matStepLabel>
       Realiza la grabación
     </ng-template>
-    <app-audio-recorder></app-audio-recorder>
+    <app-audio-recorder (testeEmitter)="updateTeste($event)">
+    </app-audio-recorder>
+    <button mat-raised-button matStepperNext color="accent">
+      Continuar
+    </button>
   </mat-step>
   <!--Second step: pipeline selection-->
   <mat-step>
     <ng-template matStepLabel>
       Selecciona un pipeline
     </ng-template>
+    <app-pipeline-table></app-pipeline-table>
+    <button mat-raised-button matStepperPrevious color="accent">
+      Anterior
+    </button>
+    <button mat-raised-button matStepperNext color="accent">
+      Siguiente
+    </button>
   </mat-step>
   <!--Third step: wait for processing-->
   <mat-step>
     <ng-template matStepLabel>
       Espera los resultados
     </ng-template>
+    <button mat-raised-button matStepperPrevious color="accent">
+      Anterior
+    </button>
   </mat-step>
 </mat-stepper>

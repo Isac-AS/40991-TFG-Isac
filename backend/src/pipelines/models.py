@@ -9,7 +9,7 @@ class Pipeline(db.Model):
     # Pipeline specific fields
     name = db.Column(db.String, nullable=False)
     description =  db.Column(db.String, nullable=False)
-    strategies = db.Column(db.JSONType, nullable=False)
+    strategies = db.Column(db.JSON, nullable=False)
 
     # Additional data
     id = db.Column(db.Integer, primary_key=True)

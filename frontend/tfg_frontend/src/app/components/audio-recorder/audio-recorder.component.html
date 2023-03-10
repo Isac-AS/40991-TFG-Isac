@@ -1,20 +1,41 @@
-<div class="container">
-  <div>Screen record</div>
-  <div>
-    <button *ngIf="state === 'NONE'" (click)="startRecording()">
-      Start record
-    </button>
-    <button *ngIf="state === 'RECORDING'" (click)="stopRecording()">
-      Stop record
-    </button>
-    <button *ngIf="state === 'RECORDED'" (click)="downloadRecording()">
-      Download video
-    </button>
-    <button *ngIf="state === 'RECORDED'" (click)="clearRecording()">
-      Clear record
-    </button>
-  </div>
-  <video #videoElement class="video-container" controls autoplay playsInline>
-    <source [src]="audioBlobUrl" />
-  </video>
-</div>
+<mat-card [class.mat-elevation-z8]="true" class="recording-card">
+  <mat-card-header>
+    <mat-card-title>
+      Realice la grabación de audio
+    </mat-card-title>
+    <mat-card-subtitle>
+      Si no está satisfecho con la grabación, puede volver a repetirla.
+    </mat-card-subtitle>
+    <mat-card-subtitle>
+      Cuando termine, seleccione el botón inferior "Continuar".
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="recording-card-content">
+    <div class="recording-card-audio-buttons">
+      <button mat-raised-button color="primary" *ngIf="!isRecording && !blobUrl" (click)="startRecording()">
+        <mat-icon>mic</mat-icon>
+        Iniciar grabación
+      </button>
+      <div class="recording-progress">
+        <mat-spinner *ngIf="isRecording && !blobUrl"></mat-spinner>
+        <span *ngIf="isRecording && !blobUrl"> {{recordedTime}} </span>
+        <button mat-raised-button color="primary" *ngIf="isRecording && !blobUrl" (click)="stopRecording()"
+        style="margin-top: 1em;">
+          <mat-icon>stop</mat-icon>
+          Parar grabación
+        </button>
+      </div>
+      <button mat-raised-button color="primary" *ngIf="!isRecording && blobUrl" (click)="clearRecordedData()">
+        <mat-icon>clear</mat-icon>
+        Eliminar grabación
+      </button>
+    </div>
+    <!--There is no need to download but... just in case it is left here-->
+    <!--button *ngIf="!isRecording && blobUrl" (click)="download()">Download Recording</--button-->
+    <div class="recording-card-audio">
+      <audio *ngIf="!isRecording && blobUrl" controls>
+        <source [src]="blobUrl" type="audio/webm">
+      </audio>
+    </div>
+  </mat-card-content>
+</mat-card>

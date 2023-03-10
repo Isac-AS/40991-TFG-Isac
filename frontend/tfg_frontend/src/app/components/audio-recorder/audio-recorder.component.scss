@@ -1,0 +1,30 @@
+.recording-card {
+    margin: 2em;
+}
+
+.recording-card-content {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 1em 0;
+    justify-content: center;
+}
+
+.recording-card-audio-buttons {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.recording-progress {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.recording-card-audio {
+    margin-top: 2em;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+}

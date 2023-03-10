@@ -42,6 +42,14 @@ export class TestingPageComponent implements OnInit {
     })
   }
 
+  test() {
+    this.backendService.test().subscribe({
+      next: (res: any) => {
+        console.log(res)
+      }
+    })
+  }
+
   logOut() {
     this.userAPIService.logOut().subscribe({
       next: res => {
@@ -54,6 +62,7 @@ export class TestingPageComponent implements OnInit {
   isAuthenticated() {
     this.userAPIService.idAuthenticated().subscribe({
       next: res => {
+        this.currentUserMessage = res.message
         console.log(res)
       }
     })
@@ -69,6 +78,7 @@ export class TestingPageComponent implements OnInit {
           this.currentUser.username = res.user.username;
           this.currentUser.password = res.user.password;
           this.currentUser.is_admin = res.user.is_admin;
+          this.currentUserMessage = res.message;
         } else {
           this.currentUser.email = '';
           this.currentUser.role = '';

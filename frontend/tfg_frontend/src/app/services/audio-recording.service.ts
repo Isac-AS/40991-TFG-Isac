@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import * as RecordRTC from "recordrtc";
-import { Subject } from "rxjs";
+import { Observable, Subject } from "rxjs";
+import moment from "moment";
 
 interface RecordedAudioOutput {
   blob: Blob;
@@ -9,58 +10,99 @@ interface RecordedAudioOutput {
 
 @Injectable()
 export class AudioRecordingService {
-    private mediaStream: any;
-    private recorder: any;
-    private blob: any;
-    private _mediaStream = new Subject<any>();
-    private _blob = new Subject<any>();
-    
-    // getObservable
-    getMediaStream() {
-      return this._mediaStream.asObservable();
+  private stream: any;
+  private recorder: any;
+  private interval: any;
+  private startTime: moment.MomentInput;
+  private _recorded = new Subject<RecordedAudioOutput>();
+  private _recordingTime = new Subject<string>();
+  private _recordingFailed = new Subject<string>();
+
+  getRecordedBlob(): Observable<RecordedAudioOutput> {
+    return this._recorded.asObservable();
+  }
+
+  getRecordedTime(): Observable<string> {
+    return this._recordingTime.asObservable();
+  }
+
+  recordingFailed(): Observable<string> {
+    return this._recordingFailed.asObservable();
+  }
+
+  startRecording() {
+    if (this.recorder) {
+      // It means recording is already started or it is already recording something
+      return;
     }
-  
-    getBlob() {
-      return this._blob.asObservable();
-    }
-  
-    startRecording() {
-      this.handleRecording();
-    }
-  
-    async handleRecording() {
-      // @ts-ignore
-      this.mediaStream = await navigator.mediaDevices.getDisplayMedia({
-        audio: true,
-        video: false
-      });
-      this._mediaStream.next(this.mediaStream);
-      this.recorder = new RecordRTC(this.mediaStream, { type: 'video' });
-      this.recorder.startRecording();
-    }
-  
-    stopRecording() {
-      if (!this.recorder) {
-        return;
-      }
-      this.recorder.stopRecording(() => {
-        this.blob = this.recorder.getBlob();
-        this._blob.next(URL.createObjectURL(this.blob));
-        this.mediaStream.stop();
-        this.recorder.destroy();
-        this.mediaStream = null;
-        this.recorder = null;
+
+    this._recordingTime.next("00:00");
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then(s => {
+        this.stream = s;
+        this.record();
       })
+      .catch(error => {
+        this._recordingFailed.next('');
+      });
+  }
+
+  abortRecording() {
+    this.stopMedia();
+  }
+
+  private record() {
+    this.recorder = new RecordRTC.StereoAudioRecorder(this.stream, {
+      type: "audio",
+      mimeType: "audio/webm"
+    });
+
+    this.recorder.record();
+    this.startTime = moment();
+    this.interval = setInterval(() => {
+      const currentTime = moment();
+      const diffTime = moment.duration(currentTime.diff(this.startTime));
+      const time =
+        this.toString(diffTime.minutes()) +
+        ":" +
+        this.toString(diffTime.seconds());
+      this._recordingTime.next(time);
+    }, 1000);
+  }
+
+  private toString(value: any) {
+    let val = value;
+    if (!value) val = "00";
+    if (value < 10) val = "0" + value;
+    return val;
+  }
+
+  stopRecording() {
+    if (this.recorder) {
+      this.recorder.stop(
+        (blob: any) => {
+          if (this.startTime) {
+            const mp3Name = encodeURIComponent(
+              "audio_" + new Date().getTime() + ".mp3"
+            );
+            this.stopMedia();
+            this._recorded.next({ blob: blob, title: mp3Name });
+          }
+        }
+      );
     }
-  
-    downloadRecording() {
-      RecordRTC.invokeSaveAsDialog(this.blob, `${Date.now()}.webm`);
-    }
-  
-    clearRecording() {
-      this.blob = null;
+  }
+
+  private stopMedia() {
+    if (this.recorder) {
       this.recorder = null;
-      this.mediaStream = null;
+      clearInterval(this.interval);
+      this.startTime = null;
+      if (this.stream) {
+        this.stream.getAudioTracks().forEach((track: any) => track.stop());
+        this.stream = null;
+      }
     }
-  
+  }
 }

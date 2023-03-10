@@ -1,55 +1,77 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AudioRecordingService } from 'src/app/services/audio-recording.service';
-
-type RecordingState = 'NONE' | 'RECORDING' | 'RECORDED'
 
 @Component({
   selector: 'app-audio-recorder',
   templateUrl: './audio-recorder.component.html',
   styleUrls: ['./audio-recorder.component.scss']
 })
-export class AudioRecorderComponent {
+export class AudioRecorderComponent implements OnDestroy{
   isRecording = false;
-  audio: any;
-  audioBlobUrl: any;
-  state: RecordingState = 'NONE';
+  recordedTime: any;
+  @Output() testeEmitter:any = new EventEmitter<any>()
+  blobUrl: any;
+  teste: any;
 
   constructor(
     private audioRecordingService: AudioRecordingService,
-    private ref: ChangeDetectorRef,
     private sanitizer: DomSanitizer
   ) { 
-    this.audioRecordingService.getMediaStream().subscribe((data) => {
-      this.audio.srcObject = data;
-      this.ref.detectChanges();
-    });
-    this.audioRecordingService.getBlob().subscribe((data) => {
-      this.audioBlobUrl = this.sanitizer.bypassSecurityTrustUrl(data);
-      this.audio.srcObject = null;
-      this.ref.detectChanges();
-    });
+    this.audioRecordingService.recordingFailed().subscribe(
+      () => (this.isRecording = false)
+    )
+
+    this.audioRecordingService.getRecordedTime().subscribe(
+      (time) => (this.recordedTime = time)
+    )
+
+    this.audioRecordingService.getRecordedBlob().subscribe(
+      data => {
+        this.teste = data;
+        this.testeEmitter.emit(this.teste)
+        this.blobUrl = this.sanitizer.bypassSecurityTrustUrl(
+          URL.createObjectURL(data.blob)
+        )
+      }
+    )
   }
 
   startRecording() {
-    this.audioRecordingService.startRecording();
-    this.state = 'RECORDING';
+    if (!this.isRecording) {
+      this.isRecording = true;
+      this.audioRecordingService.startRecording();
+    }
+  }
+
+  abortRecording() {
+    if (this.isRecording) {
+      this.isRecording = false;
+      this.audioRecordingService.abortRecording();
+    }
   }
 
   stopRecording() {
-    this.audioRecordingService.stopRecording();
-    this.state = 'RECORDED';
+    if (this.isRecording) {
+      this.audioRecordingService.stopRecording();
+      this.isRecording = false;
+    }
   }
 
-  downloadRecording() {
-    this.audioRecordingService.downloadRecording();
+  clearRecordedData() {
+    this.blobUrl = null;
   }
 
-  clearRecording() {
-    this.audioRecordingService.clearRecording();
-    this.audio.srcObject = null;
-    this.audioBlobUrl = null;
-    this.state = 'NONE';
+  ngOnDestroy(): void {
+    this.abortRecording();
+  }
+
+  download(): void {
+    const url = window.URL.createObjectURL(this.teste.blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = this.teste.title;
+    link.click();
   }
 
 

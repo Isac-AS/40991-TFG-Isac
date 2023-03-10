@@ -8,12 +8,19 @@ import { GlobalService } from 'src/app/services/global.service';
 })
 export class NewRecordPageComponent {
 
+  teste: any;
+
   constructor(
     public globalService: GlobalService,
   ) {
     this.globalService.pageName.next({
       currentPageName: 'Nuevo registro'
     })
+  }
+
+  updateTeste(teste:any) {
+    this.teste = teste;
+    console.log("TESTE in parent: ", this.teste)
   }
 
 
