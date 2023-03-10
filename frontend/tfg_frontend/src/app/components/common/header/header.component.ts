@@ -17,17 +17,23 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class HeaderComponent {
   loggedInCondition = false;
   currentUserName = '';
-  
+  isDarkThemeActive = true;
+
   constructor(
     public globalService: GlobalService,
     private userAPI: UserApiService,
     private router: Router,
     private _snackBar: MatSnackBar
-    ) {
+  ) {
     this.globalService.loggedInfo.subscribe({
       next: newValue => {
         this.loggedInCondition = newValue.isLoggedIn;
         this.currentUserName = newValue.username;
+      }
+    })
+    this.globalService.darkThemeActive.subscribe({
+      next: newValue => {
+        this.isDarkThemeActive = newValue.isDarkThemeActive;
       }
     })
     this.userAPI.updateCurrentUserData();
@@ -37,7 +43,7 @@ export class HeaderComponent {
     this.userAPI.logOut().subscribe({
       next: res => {
         //console.log(res)
-        this._snackBar.open("Sesión cerrada con éxito", "Continuar", {duration: 5000});
+        this._snackBar.open("Sesión cerrada con éxito", "Continuar", { duration: 5000 });
       }
     })
     this.globalService.loggedInfo.next({

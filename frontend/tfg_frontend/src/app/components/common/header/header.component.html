@@ -1,5 +1,8 @@
 <header>
-  <nav class="header-navbar">
+  <nav class="header-navbar"
+    [ngClass]="{
+      'header-and-footer-dark-mode-background-color': isDarkThemeActive,
+      'header-and-footer-light-mode-background-color': !isDarkThemeActive}">
     <a mat-raised-button color="accent" class="header-title" routerLink="/">
       <span>SisRegMed</span>
     </a>
@@ -13,7 +16,7 @@
         <mat-icon>person_add</mat-icon>
         Registrarse
       </a>
-      <a mat-raised-button color="disabled" *ngIf="loggedInCondition">
+      <a mat-stroked-button color="accent" *ngIf="loggedInCondition">
         {{currentUserName}}
       </a>
       <button mat-raised-button color="accent" (click)="logOut()" *ngIf="loggedInCondition">
@@ -21,6 +24,7 @@
         Cerrar sesión
       </button>
     </div>
+    <app-theme-picker class="header-show-small"></app-theme-picker>
   </nav>
   <nav class="header-small-navbar" [class.mat-elevation-z8]="true">
     <a mat-raised-button color="accent" routerLink="/login" *ngIf="!loggedInCondition">
@@ -31,7 +35,7 @@
       <mat-icon>person_add</mat-icon>
       Registrarse
     </a>
-    <a mat-raised-button color="disabled" *ngIf="loggedInCondition">
+    <a mat-stroked-button color="accent" *ngIf="loggedInCondition">
       {{currentUserName}}
     </a>
     <button mat-raised-button color="accent" (click)="logOut()" *ngIf="loggedInCondition">

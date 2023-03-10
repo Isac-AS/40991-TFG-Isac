@@ -1,4 +1,7 @@
-<footer>
+<footer
+  [ngClass]="{
+  'header-and-footer-dark-mode-background-color': isDarkThemeActive,
+  'header-and-footer-light-mode-background-color': !isDarkThemeActive}">
   <a mat-raised-button color="primary" href="https://www.itccanarias.org/web/es/politica-de-privacidad">Política de privacidad</a>
   <a mat-raised-button color="primary" href="https://www.itccanarias.org/web/es/registro-lopd">Registro LOPD</a>
   <a mat-raised-button color="primary" href="https://www.itccanarias.org/web/es/politica-de-cookies">Política de Cookies</a>

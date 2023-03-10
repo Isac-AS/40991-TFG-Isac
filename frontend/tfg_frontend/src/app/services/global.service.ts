@@ -15,4 +15,8 @@ export class GlobalService {
         role: '0',
         is_admin: false,
     });
+
+    public darkThemeActive = new BehaviorSubject<any>({
+        isDarkThemeActive: true,
+    });
 }

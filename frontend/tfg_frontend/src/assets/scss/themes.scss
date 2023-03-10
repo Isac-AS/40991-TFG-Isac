@@ -25,5 +25,15 @@ $light-theme: mat.define-light-theme((
 @include mat.all-component-themes($dark-theme);
 
 .light-mode {
-  @include mat.all-component-themes($light-theme)
+  @include mat.all-component-colors($light-theme)
+}
+
+.header-and-footer-light-mode-background-color {
+  background-color: #1A237E
+}
+
+.header-and-footer-dark-mode-background-color {
+  //https://m2.material.io/design/color/the-color-system.html#tools-for-picking-colors
+  // Purple 800
+  background-color: #6A1B9A
 }
