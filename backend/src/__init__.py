@@ -1,3 +1,4 @@
+import subprocess
 from decouple import config
 from flask import Flask, jsonify
 from flask_cors import CORS
@@ -54,6 +55,13 @@ def get_csrf():
     response.headers.set("X-CSRFToken", token)
     return response
 
+
+def run_subprocess():
+    return None
+
+
+
+# Testing area 
 from src.pipelines.models import Pipeline
 from src.pipelines.views import get_all_pipelines
 @app.route("/api/test", methods=["GET", "POST"])
