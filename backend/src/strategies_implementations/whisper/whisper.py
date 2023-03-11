@@ -1,8 +1,10 @@
 import whisper
 import logging
-from ..strategy import Strategy
+import pickle
+import sys
+#from ..strategy import Strategy
 
-class WhisperSpeechToTextStrategy(Strategy):
+class WhisperSpeechToTextStrategy():
 
     @classmethod
     def execute(cls, path: str) -> str:
@@ -25,3 +27,11 @@ class WhisperSpeechToTextStrategy(Strategy):
             logging.error("Error while attempting transcription.")
             logging.error(e)
             return "Error durante la transcripción."
+
+if __name__ == '__main__':
+    data = sys.argv[1]
+    print(data)
+    #audio_file_path = pickle.loads(data)
+    #print(audio_file_path)
+    transcription = WhisperSpeechToTextStrategy.execute(data)
+    print(transcription)

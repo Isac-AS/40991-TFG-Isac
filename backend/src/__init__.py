@@ -1,4 +1,9 @@
+import pickle
 import subprocess
+import os
+import sys
+import importlib.util
+
 from decouple import config
 from flask import Flask, jsonify
 from flask_cors import CORS
@@ -57,6 +62,22 @@ def get_csrf():
 
 
 def run_subprocess():
+    env = {'PATH': './strategies_implementations/whisper-venv/bin'}
+    
+    file_path = '/opt/40991-TFG-Isac/backend/src/strategies_implementations/whisper/whisper.py'
+    arg1 = '../recordings/test_recording_0.wav'
+    serialized_data = pickle.dumps(arg1)
+    #process = subprocess.Popen(['/opt/40991-TFG-Isac/backend/src/strategies_implementations/whisper/whisper.py', arg1], env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen([
+        '/opt/40991-TFG-Isac/backend/src/strategies_implementations/whisper/whisper-venv/bin/python',
+        '/opt/40991-TFG-Isac/backend/src/strategies_implementations/whisper/whisper.py',
+        arg1],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    # Esperar a que el proceso termine
+    stdout, stderr = process.communicate()
+    # Imprimir la salida del programa
+    print(stdout.decode('utf-8'))
+    print(stderr.decode('utf-8'))
     return None
 
 
@@ -67,7 +88,8 @@ from src.pipelines.views import get_all_pipelines
 @app.route("/api/test", methods=["GET", "POST"])
 def random_testing():
     #db.create_all()
-    pipeline_testing()
+    #pipeline_testing()
+    run_subprocess()
     return jsonify({"ping": "pong!"})
 
 def pipeline_testing():
